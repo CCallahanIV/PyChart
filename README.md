@@ -1,5 +1,10 @@
-# PyChart
+# [PyChart](https://github.com/CCallahanIV/PyChart)
 Code Fellows 401 Python Final Project
+
+## Members:
+ * Ted Callahan
+ * Jordan Schatzman
+ * Colin Lamont
 
 PyChart is web-based application allowing the user a simple sandbox environment in which to upload or access data through API and render and save representations of that data.
 
