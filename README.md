@@ -11,10 +11,13 @@ PyChart is web-based application allowing the user a simple sandbox environment 
 
  * Deployment Branch: master 
    - All pull requests to master may only be approved by the Git Master.
+   
  * Staging Branch: development
    - All work will be merged into the development branch via pull request.  
    - Developers may not merge their own PR, all PR's must be reviewed by another dev.
+   
  * Feature Branches: by feature name
    - All features should have descriptive names.
+   
  * Hotfix-Branches: <feature or development>-hotfix
    - Hotfix branches may be made off of any feature branch or the development branch to quickly fix small issues.
