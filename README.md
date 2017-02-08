@@ -9,20 +9,21 @@ Code Fellows 401 Python Final Project
 PyChart is web-based application allowing the user a simple sandbox environment in which to upload or access data through API and render and save representations of that data.
 
 ## User Stories:
+(Relative difficulty rankings are included at the end of each story, or as a part of the story in parenthesis.)
 
  * As a User...
-   - I want to be able to upload a .csv, perform very simple data manipulation, and render it into a chart.
-   - I want to be able to visualize either my data or preexisting data in the form of a scatterplot, histogram or bargraph.
-   - I want to store my data and renders on my profile.
-   - I want to be able to download my saved renders.
-   - I want some simple customization options on my renders.
+   - I want to be able to upload a .csv (2), perform very simple data manipulation (6), and render it into a chart (4).
+   - I want to be able to visualize either my data or preexisting data in the form of a scatterplot, histogram or bargraph. (4)
+   - I want to store my data and renders on my profile. (3)
+   - I want to be able to download my saved renders. (1)
+   - I want some simple customization options on my renders (5).
  * As a Developer...
-   - I want to use a common python library (e.g. bokeh) to manipulate data and render it in a web application.
-   - I want to be have 5 tests written per developer per day.
-   - I want to host this application on AWS.
-   - I want to be able to automate deployments with ansible.
-   - I want to share responsibilities with other devs so we all learn.
-   - I want the app to be built using django.
+   - I want to use a common python library (e.g. bokeh) to manipulate data and render it in a web application. (6)
+   - I want to be have 5 tests written per developer per day. (3)
+   - I want to host this application on AWS. (5)
+   - I want to be able to automate deployments with ansible. (7)
+   - I want to share responsibilities with other devs so we all learn. (1)
+   - I want the app to be built using django. (2)
 
 ## Git Workflow:
  
