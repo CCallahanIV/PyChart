@@ -4,8 +4,8 @@ from django.db import models
 
 class Data(models.Model):
     """Implementation of data model."""
-    title = models.Charfield(max_length=255, blank=False, null=False)
-    description = models.Charfield(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=False, null=False)
+    description = models.CharField(max_length=255, blank=True, null=True)
     data = models.FileField(upload_to=' ', blank=True, null=True)
     date_uploaded = models.DateField(auto_now=True)
     date_modified = models.DateField(auto_now=True)
@@ -19,7 +19,7 @@ class Data(models.Model):
         return self.title
 
 
-class Render(models.model):
+class Render(models.Model):
     """Implementation of render model."""
 
     RENDER_TYPE = (
@@ -28,9 +28,9 @@ class Render(models.model):
         ('Histogram', 'Histogram')
     )
 
-    title = models.Charfield(max_length=255, blank=False, null=False)
-    description = models.Charfield(max_length=255, blank=True, null=True)
-    render_type = models.Charfield(max_length=255,
+    title = models.CharField(max_length=255, blank=False, null=False)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    render_type = models.CharField(max_length=255,
                                    choices=RENDER_TYPE,
                                    blank=True,
                                    null=True)
