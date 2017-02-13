@@ -24,12 +24,3 @@ urlpatterns = [
     url(r'^render/(?P<pk>\d+)/add/$', AddRenderView.as_view(), name='render_add')
 
 ]
-
-
-
-
-
-
-
-
-]
