@@ -1,18 +1,17 @@
-from django.urls import reverse_lazy
-from imager_profile.models import PyChartProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
-
-from django.shortcuts import redirect
-from imager_profile.forms import UserProfileForm
+from pychart_profile.models import PyChartProfile
+from pychart_profile.forms import UserProfileForm
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
     """Display user's profile."""
 
-    template_name = "imager_profile/profile.html"
+    template_name = "pychart_profile/profile.html"
     model = PyChartProfile
     login_url = reverse_lazy("login")
 
@@ -25,7 +24,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class UserProfileView(DetailView):
     """Display any user's profile."""
 
-    template_name = "imager_profile/user_profile.html"
+    template_name = "pychart_profile/user_profile.html"
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
@@ -36,7 +35,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
     """Allow user to edit own profile details."""
 
     login_url = reverse_lazy("login")
-    template_name = "imager_profile/profile_edit.html"
+    template_name = "pychart_profile/edit_profile.html"
     model = PyChartProfile
     form_class = UserProfileForm
 

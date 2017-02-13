@@ -133,7 +133,7 @@ MEDIA_URL = "/media/"
 ACCOUNT_ACTIVATION_DAYS = 3
 
 
-LOGIN_REDIRECT_URL = 'my_profile'
+LOGIN_REDIRECT_URL = 'pychart_profile:profile'
 
 
 # Email setup

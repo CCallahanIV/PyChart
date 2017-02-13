@@ -1,7 +1,7 @@
 """Form module."""
 
 from django import forms
-from imager_profile.models import PyChartProfile
+from pychart_profile.models import PyChartProfile
 
 
 class UserProfileForm(forms.ModelForm):
