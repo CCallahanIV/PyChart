@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
 
@@ -128,13 +128,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
+MEDIA_URL = "/media/"
+ACCOUNT_ACTIVATION_DAYS = 3
 
-# Regsitration Stuff
+
+LOGIN_REDIRECT_URL = 'my_profile'
+
+
+# Email setup
 ACCOUNT_ACTIVATION_DAYS = 7
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_REDIRECT_URL = '/'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
-MEDIA_URL = '/media/'
+EMAIL_HOST_USER = 'thepychart@gmail.com'
+
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
+
