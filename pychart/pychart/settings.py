@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pychart',
-    # 'pychart_profile',
-    # 'pychart_datarender',
+    'pychart_profile',
+    'pychart_datarender',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +88,7 @@ DATABASES = {
         }
     }
 }
+
 
 
 # Password validation
@@ -146,3 +147,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'thepychart@gmail.com'
 
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
+
