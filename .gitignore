@@ -91,3 +91,6 @@ ENV/
 # Coverage reports
 *.coverage
 *.coveragerc
+
+# sqlite
+db.sqlite3
