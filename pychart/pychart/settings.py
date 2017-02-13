@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pychart',
-    # 'pychart_profile',
-    # 'pychart_datarender',
+    'pychart_profile',
+    'pychart_datarender',
 ]
 
 MIDDLEWARE = [
