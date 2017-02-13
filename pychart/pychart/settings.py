@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%an(3chkf(w6m6a9^rgoolg53hu4%*!%+)m4cph=3mlysl0=hi'
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pychart',
     'pychart_profile',
-    'pychart_datarender'
+    'pychart_datarender',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +79,12 @@ WSGI_APPLICATION = 'pychart.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['PYCHART_DB'],
+        'NAME': os.environ.get("PYCHART_DB", "pychart_db"),
+        'USER': os.environ.get("DB_USERNAME", ""),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
         'TEST': {
-            'NAME': 'test_pychart'
+            'NAME': os.environ.get("TEST_PYCHART_DB", "test_pychart_db")
         }
     }
 }
