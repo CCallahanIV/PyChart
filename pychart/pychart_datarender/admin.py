@@ -1,3 +1,5 @@
 from django.contrib import admin
+from pychart_datarender.models import Data, Render
 
-# Register your models here.
+admin.site.register(Data)
+admin.site.register(Render)
