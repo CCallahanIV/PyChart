@@ -1,0 +1,10 @@
+{% extends 'pychart/base.html' %}
+{% block content %}
+    <h3> Editing {{user.username}}'s Profile </h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Edit Profile">
+    </form>
+
+{% endblock %}

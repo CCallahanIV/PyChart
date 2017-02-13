@@ -1,3 +1,4 @@
 from django.contrib import admin
+from pychart_profile.models import PyChartProfile
 
-# Register your models here.
+admin.site.register(PyChartProfile)
