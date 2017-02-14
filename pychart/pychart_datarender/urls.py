@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^render/(?P<pk>\d+)/$', RenderDetailView.as_view(), name='render_detail'),
     url(r'^data/(?P<pk>\d+)/edit/$', EditDataView.as_view(), name='data_edit'),
     url(r'^render/(?P<pk>\d+)/edit/$', EditRenderView.as_view(), name='render_edit'),
-    url(r'^data/add/$', AddDataView.as_view(), name='data_add'),
+    url(r'^data/add/$', AddourDataView.as_view(), name='data_add'),
     url(r'^render/add/$', AddRenderView.as_view(), name='render_add')
 
 ]

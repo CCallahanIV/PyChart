@@ -8,3 +8,11 @@ class DataForm(forms.ModelForm):
     class Meta:
         model = Data
         fields = ['title', 'description', 'data']
+
+
+class EditDataForm(forms.ModelForm):
+    """Create a form for editing dataset."""
+
+    class Meta:
+        model = Data
+        fields = ['title', 'description', 'data']
