@@ -42,7 +42,7 @@ class Render(models.Model):
     date_uploaded = models.DateField(auto_now=True)
     date_modified = models.DateField(auto_now=True)
     owner = models.ForeignKey(PyChartProfile,
-                              related_name="renders",
+                              related_name='renders',
                               blank=False,
                               null=True)
     data_sets = models.ManyToManyField(Data,

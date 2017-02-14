@@ -1,7 +1,12 @@
 """Views for pychart datarender app."""
 # from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
 from pychart_datarender.models import Data, Render
+from pychart_datarender.forms import DataForm, EditDataForm
+from django.utils import timezone
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
 class GalleryView(TemplateView):
@@ -21,7 +26,12 @@ class GalleryView(TemplateView):
 class DataDetailView(TemplateView):
     """View for data detail."""
 
-    pass
+    template_name = 'pychart_datarender/data_id.html'
+
+    def get_context_data(self, pk):
+        """Get context for album view."""
+        data = Data.objects.get(pk=pk)
+        return {'data': data}
 
 
 class RenderDetailView(DetailView):
@@ -48,10 +58,17 @@ class DataLibraryView(TemplateView):
         return Data.objects.all()
 
 
-class EditDataView(UpdateView):
+class EditDataView(LoginRequiredMixin, UpdateView):
     """View for editing dataset."""
 
-    pass
+    login_required = True
+    template_name = 'pychart_datarender/edit_data.html'
+    success_url = reverse_lazy('home')
+    form_class = EditDataForm
+    model = Data
+
+
+
 
 # Stretch Goal to edit Renders
 
@@ -65,7 +82,17 @@ class EditRenderView(UpdateView):
 class AddDataView(CreateView):
     """View for creating data."""
 
-    pass
+    model = Data
+    form_class = DataForm
+    template_name = 'pychart_datarender/add_data.html'
+
+    def form_valid(self, form):
+        data = form.save()
+        data.owner = self.request.user.profile
+        data.date_uploaded = timezone.now()
+        data.date_modified = timezone.now()
+        data.save()
+        return redirect('home')
 
 
 class AddRenderView(CreateView):
