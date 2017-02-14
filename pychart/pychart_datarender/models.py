@@ -41,6 +41,10 @@ class Render(models.Model):
     render = models.TextField(null=True, blank=True)
     date_uploaded = models.DateField(auto_now=True)
     date_modified = models.DateField(auto_now=True)
+    owner = models.ForeignKey(PyChartProfile,
+                              related_name='renders',
+                              blank=False,
+                              null=True)
     data_sets = models.ManyToManyField(Data,
                                        related_name='renders',
                                        blank=False,
