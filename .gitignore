@@ -91,3 +91,6 @@ ENV/
 # Coverage reports
 *.coverage
 *.coveragerc
+
+pychart/MEDIA/*
+!pychart/MEDIA/.gitkeep

@@ -1,0 +1,13 @@
+{% extends 'pychart/base.html' %}
+
+{% block content %}
+<br><br><br><br><br>
+<ul>
+    <h3>Edit Data</h3>
+
+    <form method="POST" class="add-photo-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Edit</button>
+</ul>
+{% endblock %}
