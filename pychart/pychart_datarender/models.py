@@ -38,13 +38,14 @@ class Render(models.Model):
                                    choices=RENDER_TYPE,
                                    blank=True,
                                    null=True)
-    render = models.TextField(blank=False, null=True)
+    render = models.TextField(null=True, blank=True)
     date_uploaded = models.DateField(auto_now=True)
     date_modified = models.DateField(auto_now=True)
-    owner = models.ForeignKey(PyChartProfile,
-                              related_name='my_renders',
-                              blank=False,
-                              null=True)
+    data_sets = models.ManyToManyField(Data,
+                                       related_name='renders',
+                                       blank=False,
+                                       null=False)
+
 
     def __str__(self):
         """Create string representation of this model."""
