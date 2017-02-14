@@ -15,14 +15,14 @@
         </div>
         <h3 class="offset2">Data Sets</h3>
         <section class="row">
-        <ul class="unstyled">
+        <ul class="list-unstyled">
         {% for data_item in data %}
             <li class="col-sm-3">
-            <a href="{% url 'data_detail_view' data_item.id %}">
-                <p id="th-title"><b>{{ data_item.title }}</p>
+            <a href="{% url 'data_detail' data_item.id %}">
+                <p id="th-title"><b>{{ data_item.title }}</b></p>
             </a>
-                <p class="date"><b>Description: </b>{{ data_item.description}}</p>                
-                <p class="date"><b>Date Uploaded: </b>{{ data_item.date_uploaded}}</p>                
+                <p class="date">Description: {{ data_item.description}}</p>                
+                <p class="date">Date Uploaded: </b>{{ data_item.date_uploaded}}</p>                
             </li>
         {% endfor %}
         </ul>
@@ -31,7 +31,7 @@
         </div>
         <h3 class="offset2">Charts</h3>
         <section class="row offset2">
-            <ul class="unstyled">
+            <ul class="list-unstyled">
             {% for render in renders %}
                 <li class="col-sm-3">
                 {% if render.render_type == "Bar"%}

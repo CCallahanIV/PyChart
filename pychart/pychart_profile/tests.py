@@ -1,3 +1,4 @@
+import factory
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client, RequestFactory
@@ -5,7 +6,6 @@ from django.test import RequestFactory
 from django.urls import reverse_lazy
 from pychart_profile.models import PyChartProfile
 from pychart_datarender.models import Data, Render
-import factory
 import unittest
 import os
 
