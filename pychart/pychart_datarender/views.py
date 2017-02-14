@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView
+from pychart_datarender.models import Data, Render
+from pychart_datarender.forms import DataForm
 
 
 class GalleryView(TemplateView):
@@ -12,6 +14,11 @@ class DataDetailView(TemplateView):
     """View for data detail."""
 
     pass
+    # def get_context_data(self, pk):
+    #     """Get context for album view."""
+    #     data = Data.objects.get(pk=pk)
+    #     return {'data': data}
+
 
 
 class RenderDetailView(TemplateView):
@@ -43,7 +50,14 @@ class EditRenderView(UpdateView):
 class AddDataView(CreateView):
     """View for creating data."""
 
-    pass
+    model = Data
+    form_class = DataForm
+    template_name = 'pychart_datarender/templates/add_data.html'
+
+    def form_valid(self, form):
+        data = form.save()
+        data.owner = self.request.user.profile
+        
 
 
 class AddRenderView(CreateView):
