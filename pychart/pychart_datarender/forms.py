@@ -7,4 +7,4 @@ class DataForm(forms.ModelForm):
 
     class Meta:
         model = Data
-        include = ['title', 'description', 'data']
+        fields = ['title', 'description', 'data']

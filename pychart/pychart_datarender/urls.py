@@ -2,7 +2,7 @@
 
 from django.conf.urls import url
 #from imager_profile.views import ProfileView, EditProfileView
-from datarender.views import (
+from pychart_datarender.views import (
     GalleryView,
     DataDetailView,
     RenderDetailView,
@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^render/(?P<pk>\d+)/$', RenderDetailView.as_view(), name='render_detail'),
     url(r'^data/(?P<pk>\d+)/edit/$', EditDataView.as_view(), name='data_edit'),
     url(r'^render/(?P<pk>\d+)/edit/$', EditRenderView.as_view(), name='render_edit'),
-    url(r'^data/(?P<pk>\d+)/add/$', AddDataView.as_view(), name='data_add'),
-    url(r'^render/(?P<pk>\d+)/add/$', AddRenderView.as_view(), name='render_add')
+    url(r'^data/add/$', AddDataView.as_view(), name='data_add'),
+    url(r'^render/add/$', AddRenderView.as_view(), name='render_add')
 
 ]

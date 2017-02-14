@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm
-
+from django.utils import timezone
+from django.shortcuts import redirect
 
 class GalleryView(TemplateView):
     """View for gallery."""
@@ -52,12 +53,15 @@ class AddDataView(CreateView):
 
     model = Data
     form_class = DataForm
-    template_name = 'pychart_datarender/templates/add_data.html'
+    template_name = 'pychart_datarender/add_data.html'
 
     def form_valid(self, form):
         data = form.save()
         data.owner = self.request.user.profile
-        
+        data.date_uploaded = timezone.now()
+        data.date_modified = timezone.now()
+        data.save()
+        return redirect('home')
 
 
 class AddRenderView(CreateView):
