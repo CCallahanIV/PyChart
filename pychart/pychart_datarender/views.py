@@ -4,6 +4,8 @@ from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm, EditDataForm
 from django.utils import timezone
 from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 class GalleryView(TemplateView):
     """View for gallery."""
@@ -41,10 +43,8 @@ class EditDataView(LoginRequiredMixin, UpdateView):
     template_name = 'pychart_datarender/edit_data.html'
     success_url = reverse_lazy('home')
     form_class = EditDataForm
-    model = Data 
+    model = Data
 
-    def get_form(self):
-        pass
 
 
 
