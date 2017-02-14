@@ -1,10 +1,13 @@
+"""Models for pychart_datarender app."""
 from django.db import models
 from pychart_profile.models import PyChartProfile
 
 # Create your models here.
 
+
 class Data(models.Model):
     """Implementation of data model."""
+
     title = models.CharField(max_length=255, blank=False, null=False)
     description = models.CharField(max_length=255, blank=True, null=True)
     data = models.FileField(upload_to='data', blank=True, null=True)
@@ -13,7 +16,7 @@ class Data(models.Model):
     owner = models.ForeignKey(PyChartProfile,
                               related_name='data_sets',
                               blank=False,
-                              null=False)
+                              null=True)
 
     def __str__(self):
         """Create string representation of this model."""
@@ -42,6 +45,7 @@ class Render(models.Model):
                                        related_name='renders',
                                        blank=False,
                                        null=False)
+
 
     def __str__(self):
         """Create string representation of this model."""
