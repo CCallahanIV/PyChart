@@ -38,12 +38,14 @@ class DataLibraryView(TemplateView):
 class EditDataView(LoginRequiredMixin, UpdateView):
     """View for editing dataset."""
     login_required = True
-    template_name =  'pychart_datarender/edit_data.html'
+    template_name = 'pychart_datarender/edit_data.html'
     success_url = reverse_lazy('home')
-    # form_class =
+    form_class = EditDataForm
     model = Data 
 
     def get_form(self):
+        pass
+
 
 
 # Stretch Goal to edit Renders
