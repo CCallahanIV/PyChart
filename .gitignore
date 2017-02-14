@@ -94,3 +94,7 @@ ENV/
 
 # sqlite
 db.sqlite3
+
+#Media Folder
+pychart/MEDIA/*
+!pychart/MEDIA/.gitkeep
