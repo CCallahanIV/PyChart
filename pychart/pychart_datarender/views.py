@@ -1,11 +1,21 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView
+"""Views for pychart datarender app."""
+# from django.shortcuts import render
+from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
+from pychart_datarender.models import Data, Render
 
 
 class GalleryView(TemplateView):
     """View for gallery."""
 
-    pass
+    template_name = 'pychart_datarender/gallery.html'
+
+    def get_context_data(self):
+        """Show a users data and renders."""
+        the_user = self.request.user
+        user_data = Data.objects.filter(owner=the_user.profile)
+        user_renders = Render.objects.filter(owner=the_user.profile)
+        context = {'data': user_data, 'renders': user_renders}
+        return context
 
 
 class DataDetailView(TemplateView):
@@ -14,16 +24,28 @@ class DataDetailView(TemplateView):
     pass
 
 
-class RenderDetailView(TemplateView):
+class RenderDetailView(DetailView):
     """View for data render."""
 
-    pass
+    template_name = "pychart_datarender/render_detail.html"
+    model = Render
+
+    def get_context_data(self, **kwargs):
+        """Get context class method."""
+        render = Render.objects.get(id=self.kwargs.get("pk"))
+        context = {"render": render}
+        return context
 
 
 class DataLibraryView(TemplateView):
     """View for data library."""
 
-    pass
+    template_name = 'pychart_datarender/library.html'
+    model = Data
+
+    def get_queryset(self):
+        """Get data objects."""
+        return Data.objects.all()
 
 
 class EditDataView(UpdateView):
@@ -50,4 +72,3 @@ class AddRenderView(CreateView):
     """View for creating render."""
 
     pass
-
