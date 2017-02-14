@@ -135,29 +135,20 @@ class FrontEndTests(TestCase):
 
     def test_data_detail_returns_200(self):
         """Test working data detail page."""
-        data = Data.objects.get(pk=3)
+        data = Data.objects.first()
         response = self.client.get(reverse_lazy('data_detail',
                                                 kwargs={'pk': data.id}))
         self.assertTrue(response.status_code == 200)
 
-    # def test_data_detail_returns_description(self):
-    #     """Test working data detail page."""
-    #     data = Data.objects.get(pk=3)
-    #     response = self.client.get(reverse_lazy('data_detail',
-    #                                             kwargs={'pk': data.id}))
-    #     self.assertTrue(str(data.description) in str(response.contents))
+    def test_add_data_returns_200(self):
+        """Test working add data page."""
+        # from pychart_datarender.views import AddDataView
+        response = self.client.get(reverse_lazy('data_add'))
+        self.assertTrue(response.status_code == 200)
 
-    # def test_add_data_returns_200(self):
-    #     """Test working add data page."""
-    #     from pychart_datarender.views import AddDataView
-    #     response = self.client.get(reverse_lazy('data_add'))
-    #     self.assertTrue(response.status_code == 200)
-
-    # def test_add_data_returns_2002(self):
-    #     """Test working add data page."""
-    #     from pychart_datarender.views import AddDataView
-    #     request = self.client.get(reverse_lazy('data_add'))
-    #     view = AddDataView.as_view()
-    #     response = view(request)
-    #     import pdb; pdb.set_trace()
-    #     self.assertTrue(response.status_code == 200)
+    def test_data_detail_returns_description(self):
+        """Test working data detail page."""
+        data = Data.objects.first()
+        response = self.client.get(reverse_lazy('data_detail',
+                                                kwargs={'pk': data.id}))
+        self.assertTrue(str(data.description) in str(response.content))
