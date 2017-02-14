@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView
+import pandas as pd
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 
 class GalleryView(TemplateView):
@@ -46,8 +50,23 @@ class AddDataView(CreateView):
     pass
 
 
-class AddRenderView(CreateView):
+class AddRenderView(LoginRequiredMixin, TemplateView):
     """View for creating render."""
+    template_name = "pychart_datarender/add_render.html"
+    login_url = reverse_lazy("login")
 
-    pass
+    def get_context_data(self):
+        user = self.request.user
+        data_list = user.profile.data_sets.all()
+        return {"data_sets": data_list}
 
+
+from pychart_datarender.models import Data, Render
+from django.http import JsonResponse
+
+
+def retrieve_data(request, pk):
+    """Define a view to handle ajax calls to retrieve data."""
+    data_obj = Data.objects.get(pk=pk)
+    data = pd.read_csv(data_obj.data)
+    return JsonResponse(data.to_json(), safe=False)

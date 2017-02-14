@@ -92,12 +92,6 @@ ENV/
 *.coverage
 *.coveragerc
 
-<<<<<<< HEAD
-# sqlite
-db.sqlite3
-
 #Media Folder
-=======
->>>>>>> de98231faa714259bbfe57ef026e9bddbbbaaade
 pychart/MEDIA/*
 !pychart/MEDIA/.gitkeep
