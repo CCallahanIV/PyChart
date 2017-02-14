@@ -24,7 +24,6 @@ class DataDetailView(TemplateView):
         return {'data': data}
 
 
-
 class RenderDetailView(TemplateView):
     """View for data render."""
 
