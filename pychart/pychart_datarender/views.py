@@ -12,8 +12,9 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 import pandas as pd
 import json
-from bokeh.charts import Scatter, output_file, save
+from bokeh.charts import Scatter, output_file, save, Bar
 from bokeh.embed import file_html
+
 
 class GalleryView(LoginRequiredMixin, TemplateView):
     """View for gallery."""
@@ -165,9 +166,23 @@ def generate_scatter(data, xcol, ycol):
     plot = Scatter(df,
                    x=xcol,
                    y=ycol,
-                   title=xcol + ycol,
-                   xlabel="Average Rooms",
-                   ylabel="Median Home Price")
+                   title=xcol + 'vs' + ycol)
+    output_file("output.html")
+    save(plot)
+    return build_html()
+
+
+def generate_bar(data, xcol, ycol, agg, color=None):
+    """Generate Bar plot."""
+    df = pd.read_csv(data, sep=',')
+    if not color:
+        color = 'blue'
+    plot = Bar(df,
+               label=xcol,
+               values=ycol,
+               agg=agg,
+               title=xcol + 'vs' + ycol,
+               color=color)
     output_file("output.html")
     save(plot)
     return build_html()
