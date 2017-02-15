@@ -149,26 +149,34 @@ def render_data(request):
         raise Http404
 
 
-def render_chart(data=None, type):
+def render_chart(data='MEDIA/data/boston_housing_data.csv',
+                 type='Scatter',
+                 xcol=None,
+                 ycol=None):
     """Generate bokeh plot from input dataframe."""
     if type == 'Scatter':
-        return generate_scatter()
+        return generate_scatter(data, 'RM', 'MEDV')
 
 
-def generate_scatter():
+def generate_scatter(data, xcol, ycol):
     """Generate scatter plot."""
-    df = pd.read_csv('MEDIA/data/boston_housing_data.csv',
+    df = pd.read_csv(data,
                      sep=',')
     plot = Scatter(df,
-                   x='RM',
-                   y='MEDV',
-                   title="HP vs MPG",
+                   x=xcol,
+                   y=ycol,
+                   title=xcol + ycol,
                    xlabel="Average Rooms",
                    ylabel="Median Home Price")
     output_file("output.html")
     save(plot)
-    l = []
+    return build_html()
+
+
+def build_html():
+    """Build html file from the resulting graph."""
+    lines = []
     with open('output.html', 'r') as infile:
         for line in infile:
-            l.append(line)
-    return ''.join(l)
+            lines.append(line)
+    return ''.join(lines)
