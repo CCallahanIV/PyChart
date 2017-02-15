@@ -142,5 +142,6 @@ def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
+        html = render_chart(pd.DataFrame(data))
     else:
         raise Http404
