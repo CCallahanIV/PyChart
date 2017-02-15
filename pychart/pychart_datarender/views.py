@@ -5,8 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm, EditDataForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.http import Http404
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
@@ -20,7 +19,6 @@ class GalleryView(LoginRequiredMixin, TemplateView):
     template_name = 'pychart_datarender/gallery.html'
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("gallery")
-    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         """Show a users data and renders."""
@@ -141,7 +139,9 @@ def retrieve_data(request, pk):
 def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        html = render_chart(pd.DataFrame(data))
+        request_data = json.loads(request.body.decode('utf-8'))
+        # html = render_chart(pd.DataFrame(data))
+        import pdb;pdb.set_trace()
+        # return HttpResponse()
     else:
         raise Http404

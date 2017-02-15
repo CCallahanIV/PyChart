@@ -46,10 +46,6 @@ class Render(models.Model):
                               related_name='renders',
                               blank=False,
                               null=True)
-    data_sets = models.ManyToManyField(Data,
-                                       related_name='renders',
-                                       blank=False,
-                                       null=False)
 
 
     def __str__(self):

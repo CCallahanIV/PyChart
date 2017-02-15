@@ -8,5 +8,34 @@
 </ul>
 <table id="table" class="table" data-height="200" data-toggle="table">
 </table>
-<button id="renderBtn">Render Data</button>
+<form>
+    <label>Chart Type:</label>
+    <select id="chartType" name="chart_type">
+        <option>bar</option>
+        <option>histogram</option>
+        <option>scatter</option>
+    </select>
+    <div id="barHistogram" class="forms">
+        <label>Select Column</label>
+        <select class="colSelect" name="column">
+            <!-- INSERT COLUMNS HERE -->
+        </select>
+    </div>
+    <div id="scatter" class="forms">
+        <label>Select X:</label>
+        <select class="colSelect" name="x">
+            <!-- INSERT COLUMNS HERE -->
+        </select>
+        <label>Select Y:</label>
+        <select class="colSelect" name="y">
+            <!-- INSERT COLUMNS HERE -->
+        </select>
+    </div>
+    <label>Title: </label>
+    <input type="text" name="title" required>
+    <label>Description</label>
+    <input type="text" name="description" required>
+    <br>
+    <button id="renderBtn">Render Data</button>
+</form>
 {% endblock %}
