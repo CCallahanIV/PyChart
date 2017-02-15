@@ -8,34 +8,69 @@
 </ul>
 <table id="table" class="table" data-height="200" data-toggle="table">
 </table>
-<form>
-    <label>Chart Type:</label>
-    <select id="chartType" name="chart_type">
-        <option>bar</option>
-        <option>histogram</option>
-        <option>scatter</option>
+<label>Render Type:</label>
+<select id="chartType" name="chart_type">
+    <option>Bar</option>
+    <option>Histogram</option>
+    <option>Scatter</option>
+</select>
+
+<form data="Bar" class="chartForm">
+    <label>Values: </label>
+    <select class="columnSelect" name="values">
     </select>
-    <div id="barHistogram" class="forms">
-        <label>Select Column</label>
-        <select class="colSelect" name="column">
-            <!-- INSERT COLUMNS HERE -->
-        </select>
-    </div>
-    <div id="scatter" class="forms">
-        <label>Select X:</label>
-        <select class="colSelect" name="x">
-            <!-- INSERT COLUMNS HERE -->
-        </select>
-        <label>Select Y:</label>
-        <select class="colSelect" name="y">
-            <!-- INSERT COLUMNS HERE -->
-        </select>
-    </div>
+
+    <label>Label: </label>
+    <select class="columnSelect" name="label">
+    </select>
+
+    <label>Aggregate by: </label>
+    <select name="agg">
+        <option>sum</option>
+        <option>mean</option>
+        <option>median</option>
+        <option>min</option>
+        <option>max</option>
+        <option>count</option>
+        <option>nunique</option>
+    </select>
+
+    <label>Group By: </label>
+    <select class="columnSelect">
+    </select>
+
+    <button class="renderBtn">Render Bar Chart</button>
+</form>
+
+<form data="Histogram">
+    <label>Select Column: </label>
+    <select class="columnSelect" name="column">
+    </select>
+
+    <button id="renderBtn">Render Histogram</button>
+</form>
+
+<form data="Scatter">
+    <label>Select X:</label>
+    <select class="columnSelect" name="x">
+    </select>
+
+    <label>Select Y:</label>
+    <select class="columnSelect" name="y">
+    </select>
+
+    <button class="renderBtn">Render Scatter</button>
+</form>
+
+
+<hr>
+<form>
     <label>Title: </label>
     <input type="text" name="title" required>
     <label>Description</label>
     <input type="text" name="description" required>
-    <br>
-    <button id="renderBtn">Render Data</button>
+    <div class="container renderContainer">
+    </div>
+    <button id="saveBtn">Save Render</button>
 </form>
 {% endblock %}
