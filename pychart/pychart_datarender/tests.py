@@ -70,7 +70,7 @@ class TestData(TestCase):
             self.datasets[i].save()
         for i in range(10):
             self.renders[i].save()
-            self.datasets[i].renders.add(self.renders[i])
+            # self.datasets[i].renders.add(self.renders[i])
             self.datasets[i].save()
 
     def test_data_title_change(self):
@@ -98,20 +98,20 @@ class TestData(TestCase):
         data2.save()
         self.assertTrue(len(new_user.profile.data_sets.all()) == 2)
 
-    def test_owner_now_has_no_datasets(self):
-        """Test that owner now has no datasets."""
-        data = Data.objects.first()
-        data_owner = data.owner
-        new_owner = User.objects.all()[3].profile
-        data.owner = new_owner
-        new_owner.save()
-        data.save()
-        self.assertTrue(len(data_owner.data_sets.all()) == 0)
+    # def test_owner_now_has_no_datasets(self):
+    #     """Test that owner now has no datasets."""
+    #     data = Data.objects.first()
+    #     data_owner = data.owner
+    #     new_owner = User.objects.all()[3].profile
+    #     data.owner = new_owner
+    #     new_owner.save()
+    #     data.save()
+    #     self.assertTrue(len(data_owner.data_sets.all()) == 0)
 
-    def test_render_has_dataset(self):
-        """Test that render has a dataset."""
-        render = Render.objects.first()
-        self.assertTrue(len(render.data_sets.all()) == 1)
+    # def test_render_has_dataset(self):
+    #     """Test that render has a dataset."""
+    #     render = Render.objects.first()
+    #     self.assertTrue(len(render.data_sets.all()) == 1)
 
     def test_string_rep_data_is_title(self):
         """Test that a string representation of data is the title."""
@@ -197,7 +197,7 @@ class FrontEndTests(TestCase):
             self.datasets[i].save()
         for i in range(10):
             self.renders[i].save()
-            self.datasets[i].renders.add(self.renders[i])
+            # self.datasets[i].renders.add(self.renders[i])
             self.datasets[i].save()
 
     def test_data_detail_returns_200(self):
