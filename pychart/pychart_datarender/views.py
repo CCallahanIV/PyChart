@@ -11,8 +11,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 import pandas as pd
 import json
-from bokeh.charts import Scatter, output_file, save, Bar
-from bokeh.embed import file_html
+from bokeh.charts import Scatter, output_file, save, Bar, Histogram
 
 
 class GalleryView(LoginRequiredMixin, TemplateView):
@@ -155,14 +154,25 @@ def render_chart(form_data,
     """Generate bokeh plot from input dataframe."""
     if form_data['chart_type'] == 'Scatter':
         return generate_scatter(table_data, form_data)
+    elif form_data['chart_type'] == 'Bar':
+        return generate_bar(table_data, form_data)
+    elif form_data['chart_type'] == 'Histogram':
+        return generate_histogram(table_data, form_data)
 
 
 def generate_scatter(table_data, form_data):
     """Generate scatter plot."""
+    if form_data['marker'] == '':
+        form_data['marker'] = None
+    if form_data['color'] == '':
+        form_data['color'] = None
     plot = Scatter(table_data,
                    x=form_data['x'],
                    y=form_data['y'],
-                   title=form_data['x'] + 'vs' + form_data['y'])
+                   title=form_data['x'] + 'vs' + form_data['y'],
+                   color=form_data['color'],
+                   marker=form_data['marker'],
+                   tools='pan,wheel_zoom,box_zoom,reset,resize,hover')
     output_file("output.html")
     save(plot)
     return build_html()
@@ -170,19 +180,36 @@ def generate_scatter(table_data, form_data):
 
 def generate_bar(table_data, form_data):
     """Generate Bar plot."""
-    if not form_data['color']:
-        color = 'blue'
-    else:
+    try:
         color = form_data['color']
+    except KeyError:
+        color = 'blue'
     plot = Bar(table_data,
                label=form_data['label'],
-               values=form_data['valus'],
+               values=form_data['values'],
                agg=form_data['agg'],
                title=form_data['label'] + 'vs' + form_data['values'],
-               color=color)
+               color=color,
+               tools='pan,wheel_zoom,box_zoom,reset,resize,hover')
     output_file("output.html")
     save(plot)
     return build_html()
+
+
+def generate_histogram(table_data, form_data):
+    """Generate histogram."""
+    try:
+        color = form_data['color']
+    except KeyError:
+        color = 'blue'
+    plot = Histogram(table_data,
+                     values=form_data['column'],
+                     color=color)
+    output_file("output.html")
+    save(plot)
+    return build_html()
+# hist4 = Histogram(df, values='hp', color='cyl',
+#                   title="df, values='hp', color='cyl'", legend='top_right')
 
 
 def build_html():
