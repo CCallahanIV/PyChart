@@ -148,7 +148,6 @@ def render_data(request):
     else:
         raise Http404
 
-
 def render_chart(type, data=None):
     """Generate bokeh plot from input dataframe."""
     if type == 'scatter':
@@ -172,3 +171,13 @@ def generate_scatter():
         for line in infile:
             l.append(line)
     return ''.join(l)
+
+def render_to_db(**kwargs):
+    """Save the rendered chart to the database."""
+    new_chart = Render()
+    new_chart.render = render
+    new_chart.owner = user.profile
+    new_chart.title = title
+    new_chart.description = description
+    new_chart.render_type = render_type
+    new_chart.save()
