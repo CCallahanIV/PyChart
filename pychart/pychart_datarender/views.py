@@ -150,39 +150,35 @@ def render_data(request):
         raise Http404
 
 
-
-def render_chart(data,
-                 type='Scatter',
-                 xcol=None,
-                 ycol=None):
+def render_chart(form_data,
+                 table_data):
     """Generate bokeh plot from input dataframe."""
-    if type == 'Scatter':
-        return generate_scatter(data, 'RM', 'MEDV')
+    if form_data['chart_type'] == 'Scatter':
+        return generate_scatter(table_data, form_data)
 
 
-def generate_scatter(data, xcol, ycol):
+def generate_scatter(table_data, form_data):
     """Generate scatter plot."""
-    df = pd.read_csv(data,
-                     sep=',')
-    plot = Scatter(df,
-                   x=xcol,
-                   y=ycol,
-                   title=xcol + 'vs' + ycol)
+    plot = Scatter(table_data,
+                   x=form_data['x'],
+                   y=form_data['y'],
+                   title=form_data['x'] + 'vs' + form_data['y'])
     output_file("output.html")
     save(plot)
     return build_html()
 
 
-def generate_bar(data, xcol, ycol, agg, color=None):
+def generate_bar(table_data, form_data):
     """Generate Bar plot."""
-    df = pd.read_csv(data, sep=',')
-    if not color:
+    if not form_data['color']:
         color = 'blue'
-    plot = Bar(df,
-               label=xcol,
-               values=ycol,
-               agg=agg,
-               title=xcol + 'vs' + ycol,
+    else:
+        color = form_data['color']
+    plot = Bar(table_data,
+               label=form_data['label'],
+               values=form_data['valus'],
+               agg=form_data['agg'],
+               title=form_data['label'] + 'vs' + form_data['values'],
                color=color)
     output_file("output.html")
     save(plot)
@@ -197,6 +193,7 @@ def build_html():
             lines.append(line)
     return ''.join(lines)
 
+
 def render_to_db(**kwargs):
     """Save the rendered chart to the database."""
     new_chart = Render()
@@ -206,4 +203,3 @@ def render_to_db(**kwargs):
     new_chart.description = description
     new_chart.render_type = render_type
     new_chart.save()
-
