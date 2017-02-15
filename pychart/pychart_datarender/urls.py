@@ -11,7 +11,8 @@ from pychart_datarender.views import (
     EditRenderView,
     AddDataView,
     AddRenderView,
-    retrieve_data
+    retrieve_data,
+    render_data
 )
 
 urlpatterns = [
@@ -23,6 +24,6 @@ urlpatterns = [
     url(r'^render/(?P<pk>\d+)/edit/$', EditRenderView.as_view(), name='render_edit'),
     url(r'^data/(?P<pk>\d+)/add/$', AddDataView.as_view(), name='data_add'),
     url(r'^render/add/$', AddRenderView.as_view(), name='render_add'),
-    url(r'^data/retrieve/(?P<pk>\d+)$', retrieve_data, name="get_data")
-
+    url(r'^retrieve/(?P<pk>\d+)$', retrieve_data, name="get_data"),
+    url(r'^retrieve/render/$', render_data, name="get_render")
 ]

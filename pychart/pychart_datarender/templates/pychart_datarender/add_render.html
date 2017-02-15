@@ -6,7 +6,7 @@
         <li><a class="dataLink" href="{% url 'get_data' data.id %}">{{ data.title }}</a></li>
     {% endfor %}
 </ul>
-<table data-toggle="table">
+<table id="table" class="table" data-height="200" data-toggle="table">
 </table>
-
+<button id="renderBtn">Render Data</button>
 {% endblock %}

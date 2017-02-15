@@ -139,12 +139,10 @@ LOGIN_REDIRECT_URL = 'pychart_profile:profile'
 # Email setup
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = 'thepychart@gmail.com'
-
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
