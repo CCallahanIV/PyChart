@@ -143,7 +143,7 @@ def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        html = render_chart(pd.DataFrame(data))
+        html = render_chart(pd.DataFrame(data), 'Scatter')
         return html
     else:
         raise Http404
@@ -151,6 +151,12 @@ def render_data(request):
 
 def render_chart(data=None, type):
     """Generate bokeh plot from input dataframe."""
+    if type == 'Scatter':
+        return generate_scatter()
+
+
+def generate_scatter():
+    """Generate scatter plot."""
     df = pd.read_csv('MEDIA/data/boston_housing_data.csv',
                      sep=',')
     plot = Scatter(df,
