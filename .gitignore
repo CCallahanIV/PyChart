@@ -92,5 +92,6 @@ ENV/
 *.coverage
 *.coveragerc
 
+#Media Folder
 pychart/MEDIA/*
 !pychart/MEDIA/.gitkeep
