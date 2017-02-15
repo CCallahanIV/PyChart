@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 import pandas as pd
 import json
 from bokeh.charts import Scatter, output_file, save, Bar
@@ -146,6 +146,19 @@ def render_data(request):
         table_data = request_data['table_data']
         html = render_chart(form_data, pd.DataFrame(table_data))
         return HttpResponse(html)
+    else:
+        raise Http404
+
+@csrf_exempt
+def save_render(request):
+    """Save render."""
+    if request.method == 'POST':
+        request_data = json.loads(request.body.decode('utf-8'))
+        request_data["user"] = request.user
+        render_to_db(request_data)
+        redirect_url = reverse('gallery')
+        response = {'url': redirect_url}
+        return HttpResponse(json.dumps(response), content_type='application/json')
     else:
         raise Http404
 

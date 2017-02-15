@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $('#Scatter').hide()
     $('#Histogram').hide()
+    $('.renderForm').hide()
 
     function display_form(chart_type){
         $('.chartForm').hide()
@@ -26,6 +27,7 @@ $(document).ready(function(){
 
     $('.renderBtn').on("click", function(event){
         event.preventDefault()
+        $('.renderForm').show();
         var table_data = $('.table').bootstrapTable('getData');
         var form_data = {};
         $($(this).parent()).serializeArray().map(function(x){form_data[x.name] = x.value;});

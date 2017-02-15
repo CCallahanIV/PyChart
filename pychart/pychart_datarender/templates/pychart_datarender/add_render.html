@@ -16,6 +16,7 @@
 </select>
 
 <form id="Bar" data="Bar" class="chartForm">
+    {% csrf_token %}
     <label>Values: </label>
     <select class="columnSelect" name="values">
     </select>
@@ -44,14 +45,21 @@
 </form>
 
 <form id="Histogram" class="chartForm" data="Histogram">
+    {% csrf_token %}
     <label>Select Column: </label>
     <select class="columnSelect" name="column">
+    </select>
+
+    <label>Color By:</label>
+    <select class="columnSelect nullable" name="color">
+        <option></option>
     </select>
 
     <button class="renderBtn">Render Histogram</button>
 </form>
 
 <form id="Scatter" class="chartForm" data="Scatter">
+    {% csrf_token %}
     <label>Select X:</label>
     <select class="columnSelect" name="x">
     </select>
@@ -75,6 +83,7 @@
 
 <hr>
 <form class="renderForm">
+    {% csrf_token %}
     <label>Title: </label>
     <input type="text" name="title" required>
     <label>Description</label>
