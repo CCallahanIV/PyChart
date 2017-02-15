@@ -15,7 +15,7 @@
     <option>Scatter</option>
 </select>
 
-<form data="Bar" class="chartForm">
+<form id="Bar" data="Bar" class="chartForm">
     <label>Values: </label>
     <select class="columnSelect" name="values">
     </select>
@@ -36,21 +36,22 @@
     </select>
 
     <label>Group By: </label>
-    <select class="columnSelect">
+    <select class="columnSelect nullable" name="group">
+        <option></option>
     </select>
 
     <button class="renderBtn">Render Bar Chart</button>
 </form>
 
-<form data="Histogram">
+<form id="Histogram" class="chartForm" data="Histogram">
     <label>Select Column: </label>
     <select class="columnSelect" name="column">
     </select>
 
-    <button id="renderBtn">Render Histogram</button>
+    <button class="renderBtn">Render Histogram</button>
 </form>
 
-<form data="Scatter">
+<form id="Scatter" class="chartForm" data="Scatter">
     <label>Select X:</label>
     <select class="columnSelect" name="x">
     </select>
@@ -59,12 +60,21 @@
     <select class="columnSelect" name="y">
     </select>
 
+    <label>Color By:</label>
+    <select class="columnSelect nullable" name="color">
+        <option></option>
+    </select>
+
+    <label>Mark By:</label>
+    <select class="columnSelect nullable" name="marker">
+        <option></option>
+    </select>
+
     <button class="renderBtn">Render Scatter</button>
 </form>
 
-
 <hr>
-<form>
+<form class="renderForm">
     <label>Title: </label>
     <input type="text" name="title" required>
     <label>Description</label>

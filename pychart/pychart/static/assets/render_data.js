@@ -1,16 +1,11 @@
 $(document).ready(function(){
-    $('#scatter').hide()
+    $('#Scatter').hide()
+    $('#Histogram').hide()
 
-    function display_selects(chart_type){
-        if(chart_type === "scatter"){
-            $('#scatter').show()
-            $('#barHistogram').hide()
-        } else {
-            $('#scatter').hide()
-            $('#barHistogram').show()
-        }
+    function display_form(chart_type){
+        $('.chartForm').hide()
+        $('#' + chart_type).show()
     };
-
 
     //Below function taken from http://stackoverflow.com/questions/16789988/how-to-write-a-django-view-for-a-post-request
     function getCookie(name) {
@@ -29,11 +24,13 @@ $(document).ready(function(){
     }
     var csrftoken = getCookie('csrftoken');
 
-    $('#renderBtn').on("click", function(event){
+    $('.renderBtn').on("click", function(event){
         event.preventDefault()
-        var table_data = $('.table').bootstrapTable('getData')
+        var table_data = $('.table').bootstrapTable('getData');
         var form_data = {};
-        $("form").serializeArray().map(function(x){form_data[x.name] = x.value;}); 
+        $($(this).parent()).serializeArray().map(function(x){form_data[x.name] = x.value;});
+        var chart_type = $(this).parent().attr('data');
+        form_data["chart_type"] = chart_type;
         $.ajax({
             method: 'POST',
             url: '/data/retrieve/render/',
@@ -46,9 +43,8 @@ $(document).ready(function(){
         });        
     });
 
-
     $('#chartType').on("change", function(){
-        display_selects($(this).val())
+        display_form($(this).val())
     });
 
 });

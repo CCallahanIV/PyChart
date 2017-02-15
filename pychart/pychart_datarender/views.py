@@ -144,7 +144,7 @@ def render_data(request):
         request_data = json.loads(request.body.decode('utf-8'))
         form_data = request_data['form_data']
         table_data = request_data['table_data']
-        html = render_chart(form_data['chart_type'], pd.DataFrame(table_data))
+        html = render_chart(form_data, pd.DataFrame(table_data))
         return HttpResponse(html)
     else:
         raise Http404
