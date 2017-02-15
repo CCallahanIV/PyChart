@@ -144,3 +144,14 @@ def render_data(request):
         data = json.loads(request.body.decode('utf-8'))
     else:
         raise Http404
+
+
+def render_to_db(**kwargs):
+    """Save the rendered chart to the database."""
+    new_chart = Render()
+    new_chart.render = render
+    new_chart.owner = user.profile
+    new_chart.title = title
+    new_chart.description = description
+    new_chart.render_type = render_type
+    new_chart.save()
