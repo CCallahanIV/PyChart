@@ -1,3 +1,4 @@
+"""Tests for pychart_datarender app."""
 import factory
 from django.test import TestCase
 from django.contrib.auth.models import User
