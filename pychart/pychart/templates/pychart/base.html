@@ -34,6 +34,10 @@
                 <li><a href="{% url 'registration_register' %}">Register</a></li>
                 <li><a href="{% url 'login' %}">Login</a></li>
             {% else %}
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'data_library_view' %}">Data Library</a></li>
+                <li><a href="{% url 'data_add' %}">Add Data</a></li>
+                <li><a href="{% url 'render_add' %}">Add a Chart</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
           </ul>

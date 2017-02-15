@@ -1,26 +1,26 @@
 
 """Views for pychart datarender app."""
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
-from pychart_datarender.models import Data, Render
-from pychart_datarender.forms import DataForm, EditDataForm
-from django.utils import timezone
-from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-import pandas as pd
 from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.models import Data, Render
+from pychart_datarender.forms import DataForm, EditDataForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.http import Http404
+from django.shortcuts import redirect
+from django.utils import timezone
+from django.urls import reverse_lazy
+import pandas as pd
 import json
 import bokeh
-from django.http import Http404
 
-
-
-class GalleryView(TemplateView):
+class GalleryView(LoginRequiredMixin, TemplateView):
     """View for gallery."""
 
     template_name = 'pychart_datarender/gallery.html'
+    login_url = reverse_lazy("login")
+    success_url = reverse_lazy("gallery")
+    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         """Show a users data and renders."""
@@ -55,18 +55,21 @@ class RenderDetailView(DetailView):
         return context
 
 
-class DataLibraryView(TemplateView):
+class DataLibraryView(LoginRequiredMixin, ListView):
     """View for data library."""
 
     template_name = 'pychart_datarender/library.html'
     model = Data
+    context_object_name = 'data'
+    success_url = reverse_lazy("data_library_view")
+    login_url = reverse_lazy("login")
 
     def get_queryset(self):
         """Get data objects."""
         return Data.objects.all()
 
 
-class EditDataView(LoginRequiredMixin, UpdateView):
+class EditDataView(UpdateView):
     """View for editing dataset."""
 
     login_required = True
