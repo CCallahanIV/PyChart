@@ -3,6 +3,7 @@ appdirs==1.4.0
 appnope==0.1.0
 Babel==2.3.4
 backports.shutil-get-terminal-size==1.0.0
+bokeh==0.12.4
 bleach==1.5.0
 cycler==0.10.0
 decorator==4.0.11
@@ -12,7 +13,6 @@ docutils==0.13.1
 entrypoints==0.2.2
 factory-boy==2.8.1
 Faker==0.7.7
-gnureadline==6.3.3
 html5lib==0.9999999
 imagesize==0.7.1
 ipykernel==4.5.2
