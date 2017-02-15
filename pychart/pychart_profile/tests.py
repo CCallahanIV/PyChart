@@ -81,7 +81,7 @@ class ProfileTestCase(TestCase):
         render = RenderFactory.build()
         render.owner = user.profile
         render.save()
-        self.assertTrue(len(user.profile.my_renders.all()) == 1)
+        self.assertTrue(len(user.profile.renders.all()) == 1)
         self.assertTrue(len(user.profile.data_sets.all()) == 1)
 
 
