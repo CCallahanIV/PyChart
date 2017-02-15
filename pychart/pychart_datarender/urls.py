@@ -10,7 +10,8 @@ from pychart_datarender.views import (
     AddDataView,
     AddRenderView,
     retrieve_data,
-    render_data
+    render_data,
+    save_render
 )
 
 urlpatterns = [
@@ -25,5 +26,5 @@ urlpatterns = [
     url(r'^retrieve/render/$', render_data, name="get_render"),
     url(r'^data/add/$', AddDataView.as_view(), name='data_add'),
     url(r'^library/$', DataLibraryView.as_view(), name='data_library_view'),
+    url(r'^render/create/$', save_render, name="save_render")
 ]
-
