@@ -78,10 +78,6 @@ class EditDataView(UpdateView):
     model = Data
 
 
-
-# Stretch Goal to edit Renders
-
-
 class EditRenderView(UpdateView):
     """View for editing render."""
 
@@ -208,8 +204,6 @@ def generate_histogram(table_data, form_data):
     output_file("output.html")
     save(plot)
     return build_html()
-# hist4 = Histogram(df, values='hp', color='cyl',
-#                   title="df, values='hp', color='cyl'", legend='top_right')
 
 
 def build_html():
