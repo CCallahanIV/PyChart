@@ -6,8 +6,6 @@ from django.test import RequestFactory
 from django.urls import reverse_lazy
 from pychart_profile.models import PyChartProfile
 from pychart_datarender.models import Data, Render
-from pychart_datarender.views import generate_scatter, generate_bar, generate_histogram
-import pandas as pd
 import unittest
 import os
 
@@ -112,34 +110,3 @@ class ProfileFrontEndTests(TestCase):
         """Test registration page not logged in GET returns 200."""
         response = self.client.get(reverse_lazy('registration_register'))
         self.assertEqual(response.status_code, 200)
-
-
-class RenderTests(TestCase):
-    """Test the render functions that we use to generate html."""
-
-    def setUp(self):
-        self.test_df = pd.read_csv('MEDIA/data/boston_housing_data.csv', sep=',')
-        self.test_params = {'x': 'DIS',
-                            'y': 'RAD',
-                            'color': 'blue',
-                            'marker': 'CHAS',
-                            'values': 'TAX',
-                            'agg': 'mean',
-                            'label': 'NOX',
-                            'column': 'MEDV'}
-
-    def test_generate_scatter_plot(self):
-        """Test that generate scatter plot creates html."""
-        html = generate_scatter(self.test_df, self.test_params)
-        self.assertTrue("text/javascript" in html)
-
-    def test_generate_bar_plot(self):
-        """Test that generate scatter plot creates html."""
-        html = generate_bar(self.test_df, self.test_params)
-        self.assertTrue("https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css" in html)
-
-    def test_generate_histogram(self):
-        """Test that generate scatter plot creates html."""
-        html = generate_histogram(self.test_df, self.test_params)
-        self.assertTrue("<!DOCTYPE html>" in html)
-
