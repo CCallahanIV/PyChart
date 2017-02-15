@@ -5,14 +5,14 @@ from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm, EditDataForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.http import Http404
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
 import pandas as pd
 import json
-import bokeh
+from bokeh.charts import Scatter, output_file, save
+from bokeh.embed import file_html
 
 class GalleryView(LoginRequiredMixin, TemplateView):
     """View for gallery."""
@@ -20,7 +20,6 @@ class GalleryView(LoginRequiredMixin, TemplateView):
     template_name = 'pychart_datarender/gallery.html'
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("gallery")
-    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         """Show a users data and renders."""
@@ -141,11 +140,37 @@ def retrieve_data(request, pk):
 def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        html = render_chart(pd.DataFrame(data))
+        request_data = json.loads(request.body.decode('utf-8'))
+        form_data = request_data['form_data']
+        table_data = request_data['table_data']
+        html = render_chart(form_data['chart_type'], pd.DataFrame(table_data))
+        return HttpResponse(html)
     else:
         raise Http404
 
+def render_chart(type, data=None):
+    """Generate bokeh plot from input dataframe."""
+    if type == 'scatter':
+        return generate_scatter()
+
+
+def generate_scatter():
+    """Generate scatter plot."""
+    df = pd.read_csv('MEDIA/data/boston_housing_data.csv',
+                     sep=',')
+    plot = Scatter(df,
+                   x='RM',
+                   y='MEDV',
+                   title="HP vs MPG",
+                   xlabel="Average Rooms",
+                   ylabel="Median Home Price")
+    output_file("output.html")
+    save(plot)
+    l = []
+    with open('output.html', 'r') as infile:
+        for line in infile:
+            l.append(line)
+    return ''.join(l)
 
 def render_to_db(**kwargs):
     """Save the rendered chart to the database."""

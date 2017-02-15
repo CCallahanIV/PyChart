@@ -95,3 +95,8 @@ ENV/
 #Media Folder
 pychart/MEDIA/*
 !pychart/MEDIA/.gitkeep
+
+#files
+TestBook.ipynb
+output.html
+*/pychart_profile/migrations/0001_initial.py
