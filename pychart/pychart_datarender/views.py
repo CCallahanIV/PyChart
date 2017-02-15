@@ -150,7 +150,7 @@ def render_data(request):
         raise Http404
 
 
-def render_chart(data='MEDIA/data/boston_housing_data.csv',
+def render_chart(data,
                  type='Scatter',
                  xcol=None,
                  ycol=None):
