@@ -1,5 +1,5 @@
+
 """Views for pychart datarender app."""
-# from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
 from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm, EditDataForm
@@ -7,6 +7,14 @@ from django.utils import timezone
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+import pandas as pd
+from django.views.decorators.csrf import csrf_exempt
+from pychart_datarender.models import Data, Render
+from django.http import JsonResponse
+import json
+import bokeh
+from django.http import Http404
+
 
 
 class GalleryView(TemplateView):
@@ -69,7 +77,6 @@ class EditDataView(LoginRequiredMixin, UpdateView):
 
 
 
-
 # Stretch Goal to edit Renders
 
 
@@ -95,7 +102,42 @@ class AddDataView(CreateView):
         return redirect('home')
 
 
-class AddRenderView(CreateView):
+class AddRenderView(LoginRequiredMixin, TemplateView):
     """View for creating render."""
 
-    pass
+    template_name = "pychart_datarender/add_render.html"
+    login_url = reverse_lazy("login")
+
+    def get_context_data(self):
+        user = self.request.user
+        data_list = user.profile.data_sets.all()
+        return {"data_sets": data_list}
+
+
+def retrieve_data(request, pk):
+    """Define a view to handle ajax calls to retrieve data."""
+    data_obj = Data.objects.get(pk=pk)
+    data = pd.read_csv(data_obj.data)
+    res = {}
+    res['columns'] = []
+    for col in data.columns.values:
+        new_col = {}
+        new_col['field'] = col
+        new_col['title'] = col.upper()
+        res['columns'].append(new_col)
+    res['data'] = []
+    for row in data.iterrows():
+        new_row = {}
+        for col in data.columns.values:
+            new_row[col] = row[1][col]
+        res['data'].append(new_row)
+    return JsonResponse(json.dumps(res), safe=False)
+
+
+@csrf_exempt
+def render_data(request):
+    """Return rendered HTML from Bokeh for the given data."""
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+    else:
+        raise Http404

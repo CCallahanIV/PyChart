@@ -1,0 +1,12 @@
+{% extends 'pychart/base.html' %}
+{% block content %}
+<h4>Data sets</h4>
+<ul>
+    {% for data in data_sets %}
+        <li><a class="dataLink" href="{% url 'get_data' data.id %}">{{ data.title }}</a></li>
+    {% endfor %}
+</ul>
+<table id="table" class="table" data-height="200" data-toggle="table">
+</table>
+<button id="renderBtn">Render Data</button>
+{% endblock %}
