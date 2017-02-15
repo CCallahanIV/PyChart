@@ -1,8 +1,13 @@
 $(document).ready(function(){
 
+    function reset_charts(){
+        $('.columnSelect').empty()
+        $('.nullable').append('<option>','')
+    };
+
     function add_columns(columns){
-        var select_boxes = $('.colSelect');
-        select_boxes.empty();
+        var select_boxes = $('.columnSelect');
+        reset_charts()
         for(i=0; i < columns.length; i++){
             select_boxes.append($('<option>', {"value": columns[i]["field"], "text": columns[i]["title"]}));
         }
