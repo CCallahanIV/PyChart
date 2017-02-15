@@ -11,8 +11,9 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 import pandas as pd
 import json
-from bokeh.charts import Scatter, output_file, save
+from bokeh.charts import Scatter, output_file, save, Bar
 from bokeh.embed import file_html
+
 
 class GalleryView(LoginRequiredMixin, TemplateView):
     """View for gallery."""
@@ -148,29 +149,53 @@ def render_data(request):
     else:
         raise Http404
 
-def render_chart(type, data=None):
+
+
+def render_chart(data,
+                 type='Scatter',
+                 xcol=None,
+                 ycol=None):
     """Generate bokeh plot from input dataframe."""
-    if type == 'scatter':
-        return generate_scatter()
+    if type == 'Scatter':
+        return generate_scatter(data, 'RM', 'MEDV')
 
 
-def generate_scatter():
+def generate_scatter(data, xcol, ycol):
     """Generate scatter plot."""
-    df = pd.read_csv('MEDIA/data/boston_housing_data.csv',
+    df = pd.read_csv(data,
                      sep=',')
     plot = Scatter(df,
-                   x='RM',
-                   y='MEDV',
-                   title="HP vs MPG",
-                   xlabel="Average Rooms",
-                   ylabel="Median Home Price")
+                   x=xcol,
+                   y=ycol,
+                   title=xcol + 'vs' + ycol)
     output_file("output.html")
     save(plot)
-    l = []
+    return build_html()
+
+
+def generate_bar(data, xcol, ycol, agg, color=None):
+    """Generate Bar plot."""
+    df = pd.read_csv(data, sep=',')
+    if not color:
+        color = 'blue'
+    plot = Bar(df,
+               label=xcol,
+               values=ycol,
+               agg=agg,
+               title=xcol + 'vs' + ycol,
+               color=color)
+    output_file("output.html")
+    save(plot)
+    return build_html()
+
+
+def build_html():
+    """Build html file from the resulting graph."""
+    lines = []
     with open('output.html', 'r') as infile:
         for line in infile:
-            l.append(line)
-    return ''.join(l)
+            lines.append(line)
+    return ''.join(lines)
 
 def render_to_db(**kwargs):
     """Save the rendered chart to the database."""
@@ -181,3 +206,4 @@ def render_to_db(**kwargs):
     new_chart.description = description
     new_chart.render_type = render_type
     new_chart.save()
+
