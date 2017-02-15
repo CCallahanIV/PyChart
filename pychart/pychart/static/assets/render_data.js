@@ -1,4 +1,16 @@
 $(document).ready(function(){
+    $('#scatter').hide()
+
+    function display_selects(chart_type){
+        if(chart_type === "scatter"){
+            $('#scatter').show()
+            $('#barHistogram').hide()
+        } else {
+            $('#scatter').hide()
+            $('#barHistogram').show()
+        }
+    };
+
 
     //Below function taken from http://stackoverflow.com/questions/16789988/how-to-write-a-django-view-for-a-post-request
     function getCookie(name) {
@@ -18,15 +30,25 @@ $(document).ready(function(){
     var csrftoken = getCookie('csrftoken');
 
     $('#renderBtn').on("click", function(event){
-        var data = $('.table').bootstrapTable('getData')
+        event.preventDefault()
+        var table_data = $('.table').bootstrapTable('getData')
+        var form_data = {};
+        $("form").serializeArray().map(function(x){form_data[x.name] = x.value;}); 
         $.ajax({
             method: 'POST',
             url: '/data/retrieve/render/',
-            data: JSON.stringify(data),
+            data: JSON.stringify({"table_data": table_data, "form_data": form_data}),
             contentType: 'application/json',
             success: function(result){
-                
+                console.log("rendering", result)
+                $('.renderContainer').html(result)
             }
         });        
     });
+
+
+    $('#chartType').on("change", function(){
+        display_selects($(this).val())
+    });
+
 });

@@ -5,8 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.models import Data, Render
 from pychart_datarender.forms import DataForm, EditDataForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.http import Http404
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
@@ -22,7 +21,6 @@ class GalleryView(LoginRequiredMixin, TemplateView):
     template_name = 'pychart_datarender/gallery.html'
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("gallery")
-    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         """Show a users data and renders."""
@@ -143,11 +141,14 @@ def retrieve_data(request, pk):
 def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        html = render_chart(pd.DataFrame(data), 'Scatter')
-        return html
+        request_data = json.loads(request.body.decode('utf-8'))
+        form_data = request_data['form_data']
+        table_data = request_data['table_data']
+        html = render_chart(form_data['chart_type'], pd.DataFrame(table_data))
+        return HttpResponse(html)
     else:
         raise Http404
+
 
 
 def render_chart(data,
@@ -195,3 +196,14 @@ def build_html():
         for line in infile:
             lines.append(line)
     return ''.join(lines)
+
+def render_to_db(**kwargs):
+    """Save the rendered chart to the database."""
+    new_chart = Render()
+    new_chart.render = render
+    new_chart.owner = user.profile
+    new_chart.title = title
+    new_chart.description = description
+    new_chart.render_type = render_type
+    new_chart.save()
+
