@@ -12,7 +12,8 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 import pandas as pd
 import json
-import bokeh
+from bokeh.charts import Scatter, output_file, save
+from bokeh.embed import file_html
 
 class GalleryView(LoginRequiredMixin, TemplateView):
     """View for gallery."""
@@ -143,5 +144,25 @@ def render_data(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         html = render_chart(pd.DataFrame(data))
+        return html
     else:
         raise Http404
+
+
+def render_chart(data=None, type):
+    """Generate bokeh plot from input dataframe."""
+    df = pd.read_csv('MEDIA/data/boston_housing_data.csv',
+                     sep=',')
+    plot = Scatter(df,
+                   x='RM',
+                   y='MEDV',
+                   title="HP vs MPG",
+                   xlabel="Average Rooms",
+                   ylabel="Median Home Price")
+    output_file("output.html")
+    save(plot)
+    l = []
+    with open('output.html', 'r') as infile:
+        for line in infile:
+            l.append(line)
+    return ''.join(l)
