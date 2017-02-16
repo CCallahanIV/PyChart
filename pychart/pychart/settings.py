@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get("PYCHART_DB", "pychart_db"),
         'USER': os.environ.get("DB_USERNAME", ""),
-        'HOST': '127.0.0.1',
+        'HOST': os.environ.get("DB_ENDPOINT", ""),
         'PORT': '5432',
         'TEST': {
             'NAME': os.environ.get("TEST_PYCHART_DB", "test_pychart_db")
