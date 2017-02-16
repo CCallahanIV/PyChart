@@ -3,7 +3,7 @@
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
 from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.models import Data, Render
-from pychart_datarender.forms import DataForm, EditDataForm
+from pychart_datarender.forms import DataForm, EditDataForm, EditRenderForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
@@ -73,7 +73,7 @@ class EditDataView(UpdateView):
 
     login_required = True
     template_name = 'pychart_datarender/edit_data.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('data_library_view')
     form_class = EditDataForm
     model = Data
 
@@ -81,7 +81,10 @@ class EditDataView(UpdateView):
 class EditRenderView(UpdateView):
     """View for editing render."""
 
-    pass
+    template_name = 'pychart_datarender/edit_render.html'
+    success_url = reverse_lazy('gallery')
+    form_class = EditRenderForm
+    model = Render
 
 
 class AddDataView(CreateView):
@@ -97,7 +100,7 @@ class AddDataView(CreateView):
         data.date_uploaded = timezone.now()
         data.date_modified = timezone.now()
         data.save()
-        return redirect('home')
+        return redirect('data_library_view')
 
 
 class AddRenderView(LoginRequiredMixin, TemplateView):
@@ -143,6 +146,7 @@ def render_data(request):
         return HttpResponse(html)
     else:
         raise Http404
+
 
 @csrf_exempt
 def save_render(request):

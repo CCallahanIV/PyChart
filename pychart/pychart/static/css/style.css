@@ -2,3 +2,15 @@
     margin-top: 60px;
 }
 
+.date {
+    font-size: 11px;
+}
+
+.bk-canvas {
+    margin: auto;
+}
+
+#hp_img {
+    background-image: 
+    opacity: 0.5;
+}

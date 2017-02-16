@@ -16,3 +16,11 @@ class EditDataForm(forms.ModelForm):
     class Meta:
         model = Data
         fields = ['title', 'description', 'data']
+
+
+class EditRenderForm(forms.ModelForm):
+    """Create a form for editing chart."""
+
+    class Meta:
+        model = Render
+        fields = ['title', 'description']

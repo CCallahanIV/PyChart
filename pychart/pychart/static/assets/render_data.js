@@ -39,8 +39,8 @@ $(document).ready(function(){
             data: JSON.stringify({"table_data": table_data, "form_data": form_data}),
             contentType: 'application/json',
             success: function(result){
-                console.log("rendering", result)
                 $('.renderContainer').html(result)
+                sessionStorage.setItem('render_html', result)
             }
         });        
     });
