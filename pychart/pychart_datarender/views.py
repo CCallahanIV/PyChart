@@ -144,6 +144,7 @@ def render_data(request):
     else:
         raise Http404
 
+
 @csrf_exempt
 def save_render(request):
     """Save render."""
