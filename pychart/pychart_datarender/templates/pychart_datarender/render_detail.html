@@ -1,12 +1,16 @@
 {% extends 'pychart/base.html' %}
-
-
 {% block content %}
+{% load static %}
 <div class="page-header">
     <h1>Chart Detail</h1>
 </div>
     <img style="height: 100px;" src="{% static 'imgs/bar.png' %}">
-    <p id="th-title"><b>{{ render.title }}</b></p>
-    <p>{{ render.description}}</p>
-    <p class="date"><b>Date Uploaded: </b>{{ render.date_uploaded}}</p>
-{% endblock content %}
+    <div class="renderDescription">
+        <p id="th-title"><b>{{ render.title }}</b></p>
+        <p>{{ render.description}}</p>
+        <p class="date"><b>Date Uploaded: </b>{{ render.date_uploaded}}</p>
+    </div>
+    <div class="renderContainer">
+        {{render.html}}
+    </div>
+{% endblock %}
