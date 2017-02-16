@@ -19,6 +19,7 @@
                         </a>
                         <p class="media-body">{{ data_item.description}}</p>
                         <p class="date">Date Uploaded: {{ data_item.date_uploaded}}</p>
+                        <p><a href="{% url 'add_data_id' data.id %}">Add Data Set to My Profile</a></p>
                     </li>    
                 {% endfor %}
             {% endif %}
