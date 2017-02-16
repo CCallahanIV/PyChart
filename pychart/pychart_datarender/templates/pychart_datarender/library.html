@@ -7,10 +7,11 @@
     <div class="row">
         <div class="col-sm-12">
             <h1>Data Library</h1>
-            <ul class="list-unstyled">
+            <br>
+            <ul class="data_chart_list list-unstyled">
             {% if data %}
                 {% for data_item in data %}
-                    <li class="col-sm-3">
+                    <li class="list_data_chart">
                         <a href="{% url 'data_detail' data_item.id %}">
                             <p class="text-capitalize" id="th-title"><b>{{ data_item.title }}</b></p>
                         </a>
@@ -19,6 +20,7 @@
                         </a>
                         <p class="media-body">{{ data_item.description}}</p>
                         <p class="date">Date Uploaded: {{ data_item.date_uploaded}}</p>
+                        <a id="edit_link" href="{% url 'data_edit' data_item.id %}">Edit Data</a>
                     </li>    
                 {% endfor %}
             {% endif %}
