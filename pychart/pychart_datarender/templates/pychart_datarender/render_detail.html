@@ -11,6 +11,6 @@
         <p class="date"><b>Date Uploaded: </b>{{ render.date_uploaded}}</p>
     </div>
     <div class="renderContainer">
-        {{render.html}}
+        {{render.render|safe}}
     </div>
 {% endblock %}

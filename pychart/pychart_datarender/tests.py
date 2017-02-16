@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from pychart_profile.models import PyChartProfile
 from pychart_datarender.models import Data, Render
 from django.test import Client, RequestFactory
+from pychart_datarender.views import generate_scatter, generate_bar, generate_histogram
+import pandas as pd
 from django.urls import reverse_lazy
 import os
 
@@ -262,3 +264,55 @@ class FrontEndTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse_lazy("data_library_view"))
         self.assertTrue(response.status_code == 200)
+
+    def test_data_detail_return_200(self):
+        """Test that data detail page is accessible."""
+        data = Data.objects.first()
+        response = self.client.get(reverse_lazy('data_detail',
+                                                kwargs={'pk': data.id}))
+        self.assertTrue(response.status_code == 200)
+
+    def test_data_edit_return_200(self):
+        """Test that data detail page is accessible."""
+        data = Data.objects.first()
+        response = self.client.get(reverse_lazy('data_edit',
+                                                kwargs={'pk': data.id}))
+        self.assertTrue(response.status_code == 200)
+
+    # def test_render_detail_return_200(self):
+    #     """Test that data detail page is accessible."""
+    #     render = Render.objects.first()
+    #     response = self.client.get(reverse_lazy('render_detail',
+    #                                             kwargs={'pk': render.id}))
+    #     self.assertTrue(response.status_code == 200)
+
+
+class RenderTests(TestCase):
+    """Test the render functions that we use to generate html."""
+
+    def setUp(self):
+        self.test_df = pd.read_csv('MEDIA/data/boston_housing_data.csv', sep=',')
+        self.test_params = {'x': 'DIS',
+                            'y': 'RAD',
+                            'color': 'blue',
+                            'marker': 'CHAS',
+                            'values': 'TAX',
+                            'agg': 'mean',
+                            'label': 'NOX',
+                            'column': 'MEDV'}
+
+    def test_generate_scatter_plot(self):
+        """Test that generate scatter plot creates html."""
+        html = generate_scatter(self.test_df, self.test_params)
+        self.assertTrue("text/javascript" in html)
+
+    def test_generate_bar_plot(self):
+        """Test that generate scatter plot creates html."""
+        html = generate_bar(self.test_df, self.test_params)
+        self.assertTrue("https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css" in html)
+
+    def test_generate_histogram(self):
+        """Test that generate scatter plot creates html."""
+        html = generate_histogram(self.test_df, self.test_params)
+        self.assertTrue("<!DOCTYPE html>" in html)
+
