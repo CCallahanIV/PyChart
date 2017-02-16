@@ -8,12 +8,12 @@ setuid nobody
 setgid nogroup
 chdir {{install_root}}/{{ app_name }}/pychart
 
-env PYCHART_DB='{{PYCHART_DB}}'
-env DB_USERNAME='{{DB_USERNAME}}'
-env DB_PASSWORD='{{DB_PASSWORD}}'
-env DB_ENDPOINT='{{DB_ENDPOINT}}'
-env SECRET_KEY='{{SECRET_KEY}}'
-env EMAIL_HOST_PASSWORD='{{EMAIL_HOST_PASSWORD}}'
-env ALLOWED_HOSTS='{{ALLOWED_HOSTS}}'
+export PYCHART_DB='{{PYCHART_DB}}'
+export DB_USERNAME='{{DB_USERNAME}}'
+export DB_PASSWORD='{{DB_PASSWORD}}'
+export DB_ENDPOINT='{{DB_ENDPOINT}}'
+export SECRET_KEY='{{SECRET_KEY}}'
+export EMAIL_HOST_PASSWORD='{{EMAIL_HOST_PASSWORD}}'
+export ALLOWED_HOSTS='{{ALLOWED_HOSTS}}'
 
 exec /home/ubuntu/PyChart/bin/gunicorn -b :8080 pychart.wsgi:application

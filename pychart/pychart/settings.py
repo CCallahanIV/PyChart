@@ -128,15 +128,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'pychart', 'static')
+STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 MEDIA_URL = "/media/"
-ACCOUNT_ACTIVATION_DAYS = 3
-
 
 LOGIN_REDIRECT_URL = 'pychart_profile:profile'
-
 
 # Email setup
 ACCOUNT_ACTIVATION_DAYS = 7
