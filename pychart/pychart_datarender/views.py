@@ -211,13 +211,13 @@ def generate_bar(table_data, form_data):
 
 def generate_histogram(table_data, form_data):
     """Generate histogram."""
-    try:
-        color = form_data['color']
-    except KeyError:
+    if form_data['color'] == '':
         color = 'blue'
+    else:
+        color = form_data['color']
     plot = Histogram(table_data,
                      values=form_data['column'],
-                     color=color, 
+                     color=color,
                      tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
     output_file("output.html")
     save(plot)
@@ -229,7 +229,10 @@ def build_html():
     lines = []
     with open('output.html', 'r') as infile:
         for line in infile:
-            lines.append(line)
+            if "<title>Bokeh Plot</title>" in line:
+                pass
+            else:
+                lines.append(line)
     return ''.join(lines)
 
 
