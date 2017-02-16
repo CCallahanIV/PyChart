@@ -8,6 +8,7 @@
         <p class="text-capitalize" id="th-title"><b>{{ render.title }}</b></p>
         <p class="media-body">{{ render.description}}</p>
         <p class="date">Date Uploaded: {{ render.date_uploaded}}</p>
+        <p><a href="{% url 'render_edit' render.id %}">Edit this Render</a></p>
     </div>
     <div class="renderContainer">
         {{render.render|safe}}

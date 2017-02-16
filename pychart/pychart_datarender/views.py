@@ -96,7 +96,7 @@ class AddDataView(CreateView):
 
     def form_valid(self, form):
         data = form.save()
-        data.owner = self.request.user.profile
+        data.owner.add(self.request.user.profile)
         data.date_uploaded = timezone.now()
         data.date_modified = timezone.now()
         data.save()
@@ -113,6 +113,18 @@ class AddRenderView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         data_list = user.profile.data_sets.all()
         return {"data_sets": data_list}
+
+
+def add_owner_view(request, pk):
+    """Add dataset to this owner."""
+    data = Data.objects.get(pk=pk)
+    profile = request.user.profile
+    if data in profile.data_sets.all():
+        pass
+    else:
+        profile.data_sets.add(data)
+    return redirect('gallery')
+
 
 
 def retrieve_data(request, pk):

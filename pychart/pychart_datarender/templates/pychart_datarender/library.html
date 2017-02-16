@@ -21,6 +21,7 @@
                         <p class="media-body">{{ data_item.description}}</p>
                         <p class="date">Date Uploaded: {{ data_item.date_uploaded}}</p>
                         <a id="edit_link" href="{% url 'data_edit' data_item.id %}">Edit Data</a>
+                        <a id="edit_link" href="{% url 'add_owner' data_item.id %}">Add Data Set to My Profile</a>
                     </li>    
                 {% endfor %}
             {% endif %}

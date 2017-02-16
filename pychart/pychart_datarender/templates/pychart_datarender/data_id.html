@@ -8,6 +8,7 @@
 {% else %}
     <p class="date">Upload Data: {{ data.date_uploaded }}</p>
 {% endif %}
+<p><a href="{% url 'data_edit' data.id %}">Edit This Data</a></p>
 <br>
 <a class="dataLink" href="{% url 'get_data' data.id %}">View Data</a>
 <br><br><br>
