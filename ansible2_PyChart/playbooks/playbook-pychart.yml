@@ -84,11 +84,11 @@
         virtualenv: /home/ubuntu/PyChart
       environment: "{{env}}"
 
-    - name: Migrate Django models to database
+    - name: Collect static files
       django_manage:
         command: collectstatic
         app_path: /home/ubuntu/PyChart/pychart
-        virtualenv: /home/ubuntu/django-imager
+        virtualenv: /home/ubuntu/PyChart
       environment: "{{env}}"
 
     - name: Change permissions on media folder
