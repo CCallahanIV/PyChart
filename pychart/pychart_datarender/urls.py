@@ -11,7 +11,8 @@ from pychart_datarender.views import (
     AddRenderView,
     retrieve_data,
     render_data,
-    save_render
+    save_render,
+    add_owner_view
 )
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     url(r'^retrieve/(?P<pk>\d+)$', retrieve_data, name="get_data"),
     url(r'^retrieve/render/$', render_data, name="get_render"),
     url(r'^add/$', AddDataView.as_view(), name='data_add'),
+    url(r'^add/(?P<pk>\d+)$)', add_owner_view, name='add_owner'),
     url(r'^library/$', DataLibraryView.as_view(), name='data_library_view'),
     url(r'^render/create/$', save_render, name="save_render")
 ]
