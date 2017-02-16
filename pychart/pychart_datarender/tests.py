@@ -315,4 +315,3 @@ class RenderTests(TestCase):
         """Test that generate scatter plot creates html."""
         html = generate_histogram(self.test_df, self.test_params)
         self.assertTrue("<!DOCTYPE html>" in html)
-

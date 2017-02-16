@@ -4,9 +4,12 @@
 {% block title %}PyChart home{% endblock title %}
 
 
-{% block body %}
+{% block content %}
+<body style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(0, 0, 0, 0.1) 100%), url({% static 'imgs/bg5.png' %})">
 {% if chart.render %}
+<div>
   {{ chart.render | safe }}
+</div>
 {% else %}
   
 {% endif %}

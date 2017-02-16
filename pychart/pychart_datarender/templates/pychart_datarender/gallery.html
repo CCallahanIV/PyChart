@@ -15,15 +15,20 @@
         <h3 class="offset2">Data Sets</h3>
         <section class="row">
         <ul class="list-unstyled">
-        {% for data_item in data %}
-            <li class="col-sm-3">
-            <a href="{% url 'data_detail' data_item.id %}">
-                <p id="th-title"><b>{{ data_item.title }}</b></p>
-            </a>
-                <p class="date">Description: {{ data_item.description}}</p>                
-                <p class="date">Date Uploaded: </b>{{ data_item.date_uploaded}}</p>                
-            </li>
-        {% endfor %}
+        {% if data %}
+            {% for data_item in data %}
+                <li class="col-sm-3" >
+                <a href="{% url 'data_detail' data_item.id %}">
+                    <p class="text-capitalize" id="th-title"><b>{{ data_item.title }}</b></p>
+                </a>
+                <a href="{% url 'data_detail' data_item.id %}">    
+                    <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/data.png' %}">
+                </a>
+                    <p class="media-body">{{ data_item.description}}</p>
+                    <p class="date">Date Uploaded: </b>{{ data_item.date_uploaded}}</p>                
+                </li>
+            {% endfor %}
+        {% endif %}
         </ul>
         </section>
         <div class="container text-center pages">
@@ -31,21 +36,30 @@
         <h3 class="offset2">Charts</h3>
         <section class="row offset2">
             <ul class="list-unstyled">
-            {% for render in renders %}
-                <li class="col-sm-3">
-                {% if render.render_type == "Bar"%}
-                    <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/bar.png' %}">
-                {% elif render.render_type == "Histogram" %}
-                    <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/histogram.png' %}">
-                {% elif render.render_type == "Scatter" %}
-                    <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/scatter.png' %}">
-                {% endif %}
-                 <a href="{% url 'render_detail' render.id %}">
-                    <p id="th-title"><b>{{ render.title }}</b></p>
-                 </a>
-                    <p class="date"><b>Date Uploaded: </b>{{ render.date_uploaded}}</p>
-                </li>
-            {% endfor %}
+            {% if renders %}
+                {% for render in renders %}
+                    <li class="col-sm-3">
+                    <a href="{% url 'render_detail' render.id %}">
+                        <p class="text-capitalize" id="th-title"><b>{{ render.title }}</b></p>
+                     </a>
+                    {% if render.render_type == "Bar"%}
+                        <a href="{% url 'render_detail' render.id %}">
+                        <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/bar.png' %}">
+                        </a>
+                    {% elif render.render_type == "Histogram" %}
+                        <a href="{% url 'render_detail' render.id %}">
+                        <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/histogram.png' %}">
+                        </a>
+                    {% elif render.render_type == "Scatter" %}
+                        <a href="{% url 'render_detail' render.id %}">
+                        <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/scatter.png' %}">
+                        </a>
+                    {% endif %}
+                        <p class="media-body">{{ render.description}}</p>
+                        <p class="date">Date Uploaded: {{ render.date_uploaded}}</p>
+                    </li>
+                {% endfor %}
+            {% endif %}
             </ul>
         </section>
     </div>
