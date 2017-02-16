@@ -7,7 +7,6 @@ $(document).ready(function(){
         });
         render_data["html"] = $('.renderContainer').html();
         render_data["render_type"] = $('#chartType').val();
-        console.log(render_data)
         $.ajax({
             method: 'POST',
             url: '/data/render/create/',
