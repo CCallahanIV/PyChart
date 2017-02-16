@@ -1,7 +1,7 @@
 {% extends 'pychart/base.html' %}
 
 {% block content %}
-<br><br><br><br><br>
+
 Title: {{ data.title }}
 <br>
 Description: {{ data.description }}
@@ -9,7 +9,10 @@ Description: {{ data.description }}
 Upload_Data: {{ data.date_uploaded }}
 <br>
 Modified_Date = {{ data.date_modified }}
-
+<br>
+<a class="dataLink" href="{% url 'get_data' data.id %}">View Data</a>
+<br><br><br>
+<table id="table" class="table" data-height="200" data-toggle="table"></table>
 
 
 {% endblock %}
