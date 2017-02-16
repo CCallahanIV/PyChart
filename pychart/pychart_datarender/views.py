@@ -115,6 +115,18 @@ class AddRenderView(LoginRequiredMixin, TemplateView):
         return {"data_sets": data_list}
 
 
+def add_owner_view(request, pk):
+    """Add dataset to this owner."""
+    data = Data.objects.get(pk=pk)
+    profile = request.user.profile
+    if data in profile.data_sets.all():
+        pass
+    else:
+        profile.data_sets.add(data)
+    return redirect('gallery')
+
+
+
 def retrieve_data(request, pk):
     """Define a view to handle ajax calls to retrieve data."""
     data_obj = Data.objects.get(pk=pk)
