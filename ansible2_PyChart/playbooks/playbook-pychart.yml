@@ -4,7 +4,7 @@
   become: yes
   become_method: sudo
   vars_files:
-    - ~/codefellows/python/lab-work/PyChart/ansible_PyChart/vars/vars.yml
+    - ~/Documents/CodeFellows/401/pychart/PyChart/ansible2_PyChart/vars/vars.yml
   vars:
     env:
       PYCHART_DB: "{{PYCHART_DB}}"
