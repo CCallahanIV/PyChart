@@ -144,6 +144,7 @@ def render_data(request):
     else:
         raise Http404
 
+
 @csrf_exempt
 def save_render(request):
     """Save render."""
@@ -181,7 +182,7 @@ def generate_scatter(table_data, form_data):
                    title=form_data['x'] + 'vs' + form_data['y'],
                    color=form_data['color'],
                    marker=form_data['marker'],
-                   tools='pan,wheel_zoom,box_zoom,reset,resize,hover')
+                   tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
     output_file("output.html")
     save(plot)
     return build_html()
@@ -199,7 +200,7 @@ def generate_bar(table_data, form_data):
                agg=form_data['agg'],
                title=form_data['label'] + 'vs' + form_data['values'],
                color=color,
-               tools='pan,wheel_zoom,box_zoom,reset,resize,hover')
+               tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
     output_file("output.html")
     save(plot)
     return build_html()
@@ -213,7 +214,8 @@ def generate_histogram(table_data, form_data):
         color = 'blue'
     plot = Histogram(table_data,
                      values=form_data['column'],
-                     color=color)
+                     color=color, 
+                     tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
     output_file("output.html")
     save(plot)
     return build_html()
