@@ -96,7 +96,7 @@ class AddDataView(CreateView):
 
     def form_valid(self, form):
         data = form.save()
-        data.owner = self.request.user.profile
+        data.owner.add(self.request.user.profile)
         data.date_uploaded = timezone.now()
         data.date_modified = timezone.now()
         data.save()
