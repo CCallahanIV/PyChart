@@ -4,3 +4,10 @@
 {% block title %}PyChart home{% endblock title %}
 
 
+{% block body %}
+{% if chart.render %}
+  {{ chart.render | safe }}
+{% else %}
+  
+{% endif %}
+{% endblock %}
