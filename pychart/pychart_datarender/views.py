@@ -207,12 +207,12 @@ def build_html():
     return ''.join(lines)
 
 
-def render_to_db(**kwargs):
+def render_to_db(render_data):
     """Save the rendered chart to the database."""
     new_chart = Render()
-    new_chart.render = render
-    new_chart.owner = user.profile
-    new_chart.title = title
-    new_chart.description = description
-    new_chart.render_type = render_type
+    new_chart.render = render_data["html"]
+    new_chart.owner = render_data["user"].profile
+    new_chart.title = render_data["title"]
+    new_chart.description = render_data["description"]
+    new_chart.render_type = render_data["render_type"]
     new_chart.save()
