@@ -99,6 +99,5 @@ pychart/MEDIA/*
 #files
 TestBook.ipynb
 output.html
-*/pychart_profile/migrations/0001_initial.py
 
 */vars.yml
