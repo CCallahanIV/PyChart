@@ -40,6 +40,7 @@ $(document).ready(function(){
             contentType: 'application/json',
             success: function(result){
                 $('.renderContainer').html(result)
+                sessionStorage.setItem('render_html', result)
             }
         });        
     });
