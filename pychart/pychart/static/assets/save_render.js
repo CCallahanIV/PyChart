@@ -5,8 +5,9 @@ $(document).ready(function(){
         $('.renderForm').serializeArray().map(function(x){
             render_data[x.name] = x.value;
         });
-        render_data["html"] = $('.renderContainer').html();
+        render_data["html"] = sessionStorage.getItem('render_html')
         render_data["render_type"] = $('#chartType').val();
+        sessionStorage.removeItem('render_html')
         $.ajax({
             method: 'POST',
             url: '/data/render/create/',
