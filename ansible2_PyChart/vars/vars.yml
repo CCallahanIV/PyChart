@@ -1,0 +1,18 @@
+---
+install_root: /home/ubuntu
+app_name: PyChart
+app_desc: "PyChart"
+server_name: ec2-52-32-198-229.us-west-2.compute.amazonaws.com
+server_ip: 52.32.198.229
+branch: deployment
+project_repo: https://github.com/CCallahanIV/PyChart.git
+media_root: /home/ubuntu/PyChart/pychart/MEDIA
+
+# Env Variables
+PYCHART_DB: pychart_db
+DB_USERNAME: pychart
+DB_PASSWORD: potatoes
+DB_ENDPOINT: pychartdb.cqvwibzhsxim.us-west-2.rds.amazonaws.com
+SECRET_KEY: "%ry2ddowk3n65#542l&vcu8g(z4adtkc)zdubrddo%ij=zsg"
+EMAIL_HOST_PASSWORD: 
+ALLOWED_HOSTS: localhost 127.0.0.1 ec2-52-32-198-229.us-west-2.compute.amazonaws.com 52.32.198.229
