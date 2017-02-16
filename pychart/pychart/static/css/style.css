@@ -14,3 +14,33 @@
     background-image: 
     opacity: 0.5;
 }
+
+/* LIs */
+li.list_data_chart {
+
+    float: left;
+    width: 270px;
+    vertical-align: bottom;
+    min-height: 240px;
+    text-decoration: none;
+
+}
+
+/* ULs */
+ul.data_chart_list {
+    text-decoration: none;
+    
+}
+
+.media-body {
+    width: 190px;
+    font-size: 13px;
+}
+
+.date {
+    margin: 0;
+}
+
+#edit_link {
+    font-size: 13px;
+}
