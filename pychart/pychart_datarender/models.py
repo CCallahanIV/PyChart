@@ -13,10 +13,10 @@ class Data(models.Model):
     data = models.FileField(upload_to='data', blank=True, null=True)
     date_uploaded = models.DateField(auto_now=True)
     date_modified = models.DateField(auto_now=True)
-    owner = models.ForeignKey(PyChartProfile,
-                              related_name='data_sets',
-                              blank=False,
-                              null=True)
+    owner = models.ManyToManyField(PyChartProfile,
+                                   related_name='data_sets',
+                                   blank=True,
+                                   null=True)
 
     def __str__(self):
         """Create string representation of this model."""

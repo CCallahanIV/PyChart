@@ -5,12 +5,14 @@ from django.contrib.auth.models import User
 from pychart_profile.models import PyChartProfile
 from pychart_datarender.models import Data, Render
 from django.test import Client, RequestFactory
+from django.core.files.uploadedfile import SimpleUploadedFile
 from pychart_datarender.views import generate_scatter, generate_bar, generate_histogram
 import pandas as pd
 from django.urls import reverse_lazy
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEST_FILE_PATH = os.path.join(BASE_DIR, 'MEDIA/data/drug.csv')
 TEST_HTML_FILE_PATH = os.path.join(BASE_DIR, 'MEDIA/render/TestScatter.html')
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -44,7 +46,12 @@ class DataFactory(factory.django.DjangoModelFactory):
         model = Data
 
     title = factory.Sequence(lambda n: "Data {}".format(n))
-    owner = factory.SubFactory(ProfileFactory)
+    description = "Test Description"
+    data = SimpleUploadedFile(
+        name='drug.csv',
+        content=open(TEST_FILE_PATH, 'rb').read(),
+        content_type='text/csv'
+    )
 
 
 class RenderFactory(factory.django.DjangoModelFactory):
@@ -68,8 +75,8 @@ class TestData(TestCase):
         self.datasets = [DataFactory.build() for i in range(10)]
         self.renders = [RenderFactory.build() for i in range(10)]
         for i in range(10):
-            self.datasets[i].owner = self.users[i].profile
             self.datasets[i].save()
+            self.datasets[i].owner.add(self.users[i].profile)
         for i in range(10):
             self.renders[i].save()
             # self.datasets[i].renders.add(self.renders[i])
@@ -85,7 +92,7 @@ class TestData(TestCase):
     def test_owner_has_correct_data(self):
         """Test that the owner has correct data."""
         data = Data.objects.first()
-        owner = data.owner
+        owner = data.owner.first()
         owner_datasets = owner.data_sets
         self.assertTrue(data == owner_datasets.all()[0])
 
@@ -94,21 +101,22 @@ class TestData(TestCase):
         new_user = UserFactory.create()
         data1 = DataFactory.build()
         data2 = DataFactory.build()
-        data1.owner = new_user.profile
-        data2.owner = new_user.profile
         data1.save()
         data2.save()
+        data1.owner.add(new_user.profile)
+        data2.owner.add(new_user.profile)
         self.assertTrue(len(new_user.profile.data_sets.all()) == 2)
 
-    # def test_owner_now_has_no_datasets(self):
-    #     """Test that owner now has no datasets."""
-    #     data = Data.objects.first()
-    #     data_owner = data.owner
-    #     new_owner = User.objects.all()[3].profile
-    #     data.owner = new_owner
-    #     new_owner.save()
-    #     data.save()
-    #     self.assertTrue(len(data_owner.data_sets.all()) == 0)
+    def test_owner_now_has_no_datasets(self):
+        """Test that owner now has no datasets."""
+        data = Data.objects.first()
+        data_owner = data.owner.first()
+        new_owner = User.objects.all()[3].profile
+        data.owner.add(new_owner)
+        new_owner.save()
+        data.save()
+        data_owner.data_sets.remove(data)
+        self.assertTrue(len(data_owner.data_sets.all()) == 0)
 
     # def test_render_has_dataset(self):
     #     """Test that render has a dataset."""
@@ -195,8 +203,8 @@ class FrontEndTests(TestCase):
         self.datasets = [DataFactory.build() for i in range(10)]
         self.renders = [RenderFactory.build() for i in range(10)]
         for i in range(10):
-            self.datasets[i].owner = self.users[i].profile
             self.datasets[i].save()
+            self.datasets[i].owner.add(self.users[i].profile)
         for i in range(10):
             self.renders[i].save()
             # self.datasets[i].renders.add(self.renders[i])

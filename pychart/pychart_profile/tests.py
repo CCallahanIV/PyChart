@@ -76,8 +76,8 @@ class ProfileTestCase(TestCase):
         """Test all profile fields."""
         user = UserFactory.create()
         data_set = DataFactory.build()
-        data_set.owner = user.profile
         data_set.save()
+        data_set.owner.add(user.profile)
         render = RenderFactory.build()
         render.owner = user.profile
         render.save()
