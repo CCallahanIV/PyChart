@@ -5,7 +5,7 @@
 <ul>
     <h3>Edit Data</h3>
 
-    <form method="POST" class="add-photo-form" enctype="multipart/form-data">
+    <form method="POST" class="edit-data-form" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Edit</button>

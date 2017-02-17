@@ -10,6 +10,7 @@ from pychart_datarender.views import generate_scatter, generate_bar, generate_hi
 import pandas as pd
 from django.urls import reverse_lazy
 import os
+from django.utils.functional import SimpleLazyObject
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEST_FILE_PATH = os.path.join(BASE_DIR, 'MEDIA/data/drug.csv')
@@ -285,6 +286,8 @@ class FrontEndTests(TestCase):
 
     def test_data_detail_return_200(self):
         """Test that data detail page is accessible."""
+        user = self.user_login()
+        self.client.force_login(user)
         data = Data.objects.first()
         response = self.client.get(reverse_lazy('data_detail',
                                                 kwargs={'pk': data.id}))
@@ -292,6 +295,8 @@ class FrontEndTests(TestCase):
 
     def test_data_edit_return_200(self):
         """Test that data detail page is accessible."""
+        user = self.user_login()
+        self.client.force_login(user)
         data = Data.objects.first()
         response = self.client.get(reverse_lazy('data_edit',
                                                 kwargs={'pk': data.id}))
@@ -368,6 +373,85 @@ class FrontEndTests(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn(b'application/json', res.serialize_headers())
 
+    def test_title_is_saved_using_render_to_db_function(self):
+        """Test title is saved via render_to_db."""
+        from pychart_datarender.views import render_to_db
+        render_data = {"html": "text for html", "title": "my render", "description": "my first render ever.", "render_type": "Bar"}
+        render_data["user"] = SimpleLazyObject(lambda: self.users[0])
+        render_to_db(render_data)
+        new_render = Render.objects.get(title="my render")
+        self.assertEqual(new_render.title, "my render")
+
+    def test_description_is_saved_using_render_to_db_function(self):
+        """Test description is saved via render_to_db."""
+        from pychart_datarender.views import render_to_db
+        render_data = {"html": "text for html", "title": "my render", "description": "my first render ever.", "render_type": "Bar"}
+        render_data["user"] = SimpleLazyObject(lambda: self.users[0])
+        render_to_db(render_data)
+        new_render = Render.objects.get(description="my first render ever.")
+        self.assertTrue(new_render.description == "my first render ever.")
+
+    def test_html_is_saved_using_render_to_db_function(self):
+        """Test html is saved via render_to_db."""
+        from pychart_datarender.views import render_to_db
+        render_data = {"html": "text for html", "title": "my render", "description": "my first render ever.", "render_type": "Bar"}
+        render_data["user"] = SimpleLazyObject(lambda: self.users[0])
+        render_to_db(render_data)
+        new_render = Render.objects.get(render="text for html")
+        self.assertTrue(new_render.render == "text for html")
+
+    def test_render_type_is_saved_using_render_to_db_function(self):
+        """Test render_type is saved via render_to_db."""
+        from pychart_datarender.views import render_to_db
+        render_data = {"html": "text for html", "title": "my render", "description": "my first render ever.", "render_type": "Bar"}
+        render_data["user"] = SimpleLazyObject(lambda: self.users[0])
+        render_to_db(render_data)
+        new_render = Render.objects.get(render_type="Bar")
+        self.assertTrue(new_render.render_type == "Bar")
+
+    def test_owner_is_saved_using_render_to_db_function(self):
+        """Test owner exists when saved via render_to_db."""
+        from pychart_datarender.views import render_to_db
+        render_data = {"html": "text for html", "title": "my render", "description": "my first render ever.", "render_type": "Bar"}
+        render_data["user"] = SimpleLazyObject(lambda: self.users[0])
+        render_to_db(render_data)
+        new_render = Render.objects.get(render_type="Bar")
+        self.assertTrue(new_render.owner)
+
+    def test_render_edit_gets_redirected(self):
+        """Test that edit render submission redirects."""
+        user = self.users[0]
+        self.client.force_login(user)
+        new_chart = Render.objects.first()
+        new_chart.owner = user.profile
+        new_chart.save()
+        response = self.client.post('/data/render/' + str(new_chart.id) + '/edit/',{'title': 'hello'})
+        self.assertTrue(response.status_code == 302)
+
+    def test_render_edit_redirects_to_gallery(self):
+        """Test that edit render submission redirects to Gallery."""
+        user = self.users[0]
+        self.client.force_login(user)
+        new_chart = Render.objects.first()
+        new_chart.owner = user.profile
+        new_chart.save()
+        response = self.client.post('/data/render/' + str(new_chart.id) + '/edit/',{'title': 'hello'})
+        self.assertTrue(response.url == "/data/gallery/")
+
+    def test_data_edit_data_goes_to_data_library(self):
+        """Test that edit data submission redirects to data library."""
+        user = self.users[0]
+        self.client.force_login(user)
+        data2 = Data.objects.first()
+        response = self.client.post('/data/' + str(data2.id) + '/edit', {'title': 'hello'})
+        self.assertTrue(response.status_code == 301)    
+
+    # def test_render_detail_return_200(self):
+    #     """Test that data detail page is accessible."""
+    #     render = Render.objects.first()
+    #     response = self.client.get(reverse_lazy('render_detail',
+    #                                             kwargs={'pk': render.id}))
+    #     self.assertTrue(response.status_code == 200)
 
 class RenderTests(TestCase):
     """Test the render functions that we use to generate html."""

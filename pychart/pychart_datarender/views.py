@@ -257,6 +257,7 @@ def build_html():
 def render_to_db(render_data):
     """Save the rendered chart to the database."""
     new_chart = Render()
+    # import pdb; pdb.set_trace()
     new_chart.render = render_data["html"]
     new_chart.owner = render_data["user"].profile
     new_chart.title = render_data["title"]
