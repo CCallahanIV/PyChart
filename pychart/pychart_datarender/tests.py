@@ -177,7 +177,7 @@ class TestData(TestCase):
         this_render.save()
         self.assertTrue(self.renders[0].render_type == "Bar")
 
-    def test_render_is_a_historgram(self):
+    def test_render_is_a_histogram(self):
         """Test photo has their published setting as Public."""
         this_render = self.renders[0]
         this_render.render_type = "Histogram"
@@ -190,6 +190,16 @@ class TestData(TestCase):
         this_render.description == "My render description"
         this_render.save()
         self.assertTrue(self.renders[0].description == "My render description")
+
+    def test_data_has_multiple_owners(self):
+        """Test that adding mulitple renders to a data object works."""
+        data_set = Data.objects.first()
+        profile = User.objects.all()
+        user1 = profile[0].profile
+        user2 = profile[1].profile
+        data_set.owner.add(user1)
+        data_set.owner.add(user2)
+        self.assertTrue(len(data_set.owner.all()) == 2)
 
 
 class FrontEndTests(TestCase):
@@ -287,12 +297,40 @@ class FrontEndTests(TestCase):
                                                 kwargs={'pk': data.id}))
         self.assertTrue(response.status_code == 200)
 
-    # def test_render_detail_return_200(self):
-    #     """Test that data detail page is accessible."""
-    #     render = Render.objects.first()
-    #     response = self.client.get(reverse_lazy('render_detail',
-    #                                             kwargs={'pk': render.id}))
-    #     self.assertTrue(response.status_code == 200)
+    def test_render_detail_return_200(self):
+        """Test that data detail page is accessible."""
+        render = Render.objects.first()
+        response = self.client.get(reverse_lazy('render_detail',
+                                                kwargs={'pk': render.id}))
+        self.assertTrue(response.status_code == 200)
+
+    def test_add_owner_return_302(self):
+        """Test that add owner page redirects."""
+        user = self.user_login()
+        self.client.force_login(user)
+        data = Data.objects.first()
+        response = self.client.get(reverse_lazy('add_owner',
+                                                kwargs={'pk': data.id}))
+        self.assertTrue(response.status_code == 302)
+
+    def test_add_owner_adds_data_to_user(self):
+        """Test that add owner page redirects."""
+        user = self.user_login()
+        self.client.force_login(user)
+        data = Data.objects.first()
+        self.client.get(reverse_lazy('add_owner',
+                                     kwargs={'pk': data.id}))
+        self.assertTrue(len(user.profile.data_sets.all()) == 1)
+
+    def test_add_owner_adds_user_to_data(self):
+        """Test that add owner page redirects."""
+        user = self.user_login()
+        self.client.force_login(user)
+        data = Data.objects.first()
+        owner_count = len(data.owner.all())
+        self.client.get(reverse_lazy('add_owner',
+                                     kwargs={'pk': data.id}))
+        self.assertTrue(len(data.owner.all()) == owner_count + 1)
 
 
 class RenderTests(TestCase):
