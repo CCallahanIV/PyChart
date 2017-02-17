@@ -354,7 +354,7 @@ class FrontEndTests(TestCase):
         res = self.client.get("/retrieve/render")
         self.assertEqual(res.status_code, 404)
 
-    def test_render_data_post_returns_HttpResponse(self):
+    def test_render_data_post_returns_http_response(self):
         """Test that render_data returns HTML with bokeh chart on POST."""
         self.user_login()
         from pychart_datarender.views import refactor_data
@@ -362,6 +362,17 @@ class FrontEndTests(TestCase):
         table_data = refactor_data(pd.read_csv(TEST_FILE_PATH))
         post_params = {"form_data": form_data, "table_data": table_data}
         res = self.client.post("/data/retrieve/render", post_params)
+        self.assertEqual(res.status_code, 301)
+
+    def test_save_render_get_returns_404(self):
+        """Test that render_data returns a 404 on a get request."""
+        res = self.client.get("/data/render/create", follow=True)
+        self.assertEqual(res.status_code, 404)
+
+    def test_save_render_post_returns_http_response(self):
+        """Test that save_render returns HTTP Response."""
+        post_params = {"html": "Some html", "render_type": "Bar", "title": "Test title", "description": "Test Desc"}
+        res = self.client.post("/data/render/create", post_params)
         self.assertEqual(res.status_code, 301)
 
     def test_retrieve_data_returns_html_json_response(self):
