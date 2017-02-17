@@ -2,15 +2,120 @@
     margin-top: 60px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+}
+p, div {
+    font-family: 'Lato', sans-serif;
+}
+
 .date {
     font-size: 11px;
 }
 
-.bk-canvas {
+.bk-root {
     margin: auto;
+}
+
+.bk-canvas-events {
+    border-style: solid;
+    border-color: grey;
+    text-align: center;
+    margin: auto;
+
 }
 
 #hp_img {
     background-image: 
     opacity: 0.5;
+}
+
+/* LIs */
+li.list_data_chart {
+
+    float: left;
+    width: 270px;
+    vertical-align: bottom;
+    min-height: 240px;
+    text-decoration: none;
+
+}
+
+/* ULs */
+ul.data_chart_list {
+    text-decoration: none;
+    
+}
+
+.media-body {
+    width: 190px;
+    font-size: 13px;
+}
+
+.date {
+    margin: 0;
+    font-size: 13px;
+}
+
+#edit_link {
+    font-size: 13px;
+}
+
+#hp {
+    margin-top: 10px;
+    padding: 10px;
+    background: #d7e9f4;
+    border-radius: 10px;
+    width: 800px;
+    opacity: .9;
+    border-style: solid;
+    border-color: black;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    margin: auto;
+    box-shadow: 2px 2px 2px #666666;
+}
+
+.chart_hp {
+    text-align: center;
+    margin: auto;
+}
+
+.inner_chart {
+    text-align: center;
+    margin: auto;
+    width: 700px;
+}
+
+#top_text {
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-bottom: 0px;
+    color: #5a5a5a;
+}
+
+#hp_inner {
+    text-align: center;
+    margin: auto;
+    width: 500px;
+}
+
+.bk-plot-layout {
+    text-align: center;
+    margin: auto;
+}
+
+#sub_head {
+    color: #5a5a5a;
+}
+
+#foot {
+    text-align: center;
+    color: #323232;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.row {
+    margin: auto;
 }

@@ -13,11 +13,12 @@
             <h1>Gallery</h1>
         </div>
         <h3 class="offset2">Data Sets</h3>
+        <br>
         <section class="row">
-        <ul class="list-unstyled">
+        <ul class="data_chart_list list-unstyled">
         {% if data %}
             {% for data_item in data %}
-                <li class="col-sm-3" >
+                <li class="list_data_chart" >
                 <a href="{% url 'data_detail' data_item.id %}">
                     <p class="text-capitalize" id="th-title"><b>{{ data_item.title }}</b></p>
                 </a>
@@ -25,7 +26,8 @@
                     <img style="object-fit: cover; height: 100px;" src="{% static 'imgs/data.png' %}">
                 </a>
                     <p class="media-body">{{ data_item.description}}</p>
-                    <p class="date">Date Uploaded: </b>{{ data_item.date_uploaded}}</p>                
+                    <p class="date">Date Uploaded: </b>{{ data_item.date_uploaded}}</p>
+                <a id="edit_link" href="{% url 'data_edit' data_item.id %}">Edit Data</a> 
                 </li>
             {% endfor %}
         {% endif %}
@@ -34,11 +36,12 @@
         <div class="container text-center pages">
         </div>
         <h3 class="offset2">Charts</h3>
+        <br>
         <section class="row offset2">
-            <ul class="list-unstyled">
+            <ul class="data_chart_list list-unstyled">
             {% if renders %}
                 {% for render in renders %}
-                    <li class="col-sm-3">
+                    <li class="list_data_chart">
                     <a href="{% url 'render_detail' render.id %}">
                         <p class="text-capitalize" id="th-title"><b>{{ render.title }}</b></p>
                      </a>
@@ -57,6 +60,7 @@
                     {% endif %}
                         <p class="media-body">{{ render.description}}</p>
                         <p class="date">Date Uploaded: {{ render.date_uploaded}}</p>
+                    <a id="edit_link" href="{% url 'render_edit' render.id %}">Edit Chart</a>
                     </li>
                 {% endfor %}
             {% endif %}
