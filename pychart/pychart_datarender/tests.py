@@ -332,6 +332,42 @@ class FrontEndTests(TestCase):
                                      kwargs={'pk': data.id}))
         self.assertTrue(len(data.owner.all()) == owner_count + 1)
 
+    def test_refactor_data_returns_formatted_json(self):
+        """Test that refactor_data returns dict in proper format."""
+        from pychart_datarender.views import refactor_data
+        data = pd.read_csv(TEST_FILE_PATH)
+        data_json = refactor_data(data)
+        req_keys = ["columns", "data"]
+        for key in data_json.keys():
+            self.assertIn(key, req_keys)
+        self.assertEqual(len(data_json["columns"]), 28)
+        self.assertEqual(len(data_json["data"]), 17)
+
+    def test_render_data_get_request_raises_404(self):
+        """Test that sending a get requrest to render_data raises a 404."""
+        self.user_login()
+        res = self.client.get("/retrieve/render")
+        self.assertEqual(res.status_code, 404)
+
+    def test_render_data_post_returns_HttpResponse(self):
+        """Test that render_data returns HTML with bokeh chart on POST."""
+        self.user_login()
+        from pychart_datarender.views import refactor_data
+        form_data = {"column": "age", "color": "", "chart_type": "Histogram"}
+        table_data = refactor_data(pd.read_csv(TEST_FILE_PATH))
+        post_params = {"form_data": form_data, "table_data": table_data}
+        res = self.client.post("/data/retrieve/render", post_params)
+        self.assertEqual(res.status_code, 301)
+
+    def test_retrieve_data_returns_html_json_response(self):
+        """Test that retrieve data returns formatted JSON response."""
+        self.user_login()
+        test_data = Data.objects.all().first()
+        url = "/data/retrieve/" + str(test_data.id)
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn(b'application/json', res.serialize_headers())
+
 
 class RenderTests(TestCase):
     """Test the render functions that we use to generate html."""

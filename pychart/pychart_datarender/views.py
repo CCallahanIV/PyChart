@@ -126,11 +126,16 @@ def add_owner_view(request, pk):
     return redirect('gallery')
 
 
-
 def retrieve_data(request, pk):
     """Define a view to handle ajax calls to retrieve data."""
     data_obj = Data.objects.get(pk=pk)
     data = pd.read_csv(data_obj.data)
+    res = refactor_data(data)
+    return JsonResponse(json.dumps(res), safe=False)
+
+
+def refactor_data(data):
+    """Given a DataFrame, return JSON for use in Bootstrap Table."""
     res = {}
     res['columns'] = []
     for col in data.columns.values:
@@ -144,7 +149,7 @@ def retrieve_data(request, pk):
         for col in data.columns.values:
             new_row[col] = row[1][col]
         res['data'].append(new_row)
-    return JsonResponse(json.dumps(res), safe=False)
+    return res
 
 
 @csrf_exempt
