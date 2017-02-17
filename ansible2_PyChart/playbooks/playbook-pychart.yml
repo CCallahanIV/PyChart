@@ -105,7 +105,7 @@
 
     - name: Change permissions on media/data
       file: 
-        path: "{{media_root}}/../../pychart/"
+        path: "{{media_root}}/../../pychart"
         state: touch
         mode: 0777
 
