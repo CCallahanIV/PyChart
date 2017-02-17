@@ -95,13 +95,19 @@
       file: 
         path: "{{media_root}}"
         state: touch
-        mode: 0755
+        mode: 0777
     
     - name: Change permissions on media/data
       file: 
         path: "{{media_root}}/data"
         state: touch
-        mode: 0755
+        mode: 0777
+
+    - name: Change permissions on media/data
+      file: 
+        path: "{{media_root}}/../../pychart/"
+        state: touch
+        mode: 0777
 
     - name: Restart the imager upstart job
       service: name="pychart" state=restarted
