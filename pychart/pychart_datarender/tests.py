@@ -307,7 +307,8 @@ class RenderTests(TestCase):
                             'values': 'TAX',
                             'agg': 'mean',
                             'label': 'NOX',
-                            'column': 'MEDV'}
+                            'column': 'MEDV',
+                            'group': ''}
 
     def test_generate_scatter_plot(self):
         """Test that generate scatter plot creates html."""
