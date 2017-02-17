@@ -60,7 +60,7 @@
                     {% endif %}
                         <p class="media-body">{{ render.description}}</p>
                         <p class="date">Date Uploaded: {{ render.date_uploaded}}</p>
-                    <a href="{% url 'render_edit' render.id %}">Edit Chart</a>
+                    <a id="edit_link" href="{% url 'render_edit' render.id %}">Edit Chart</a>
                     </li>
                 {% endfor %}
             {% endif %}
