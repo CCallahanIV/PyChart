@@ -15,6 +15,7 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
     <link rel="icon" type="image/x-icon" href="{% static 'imgs/pychart_fav.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,7 +28,9 @@
             <span class="icon-bar"></span>
           </button>
           <div>
-          <img src="{% static 'imgs/pychart_nav_logo.png' %}">
+          <a href="{% url 'home' %}">
+            <img class="navbar-btn" src="{% static 'imgs/pychart_nav_logo.png' %}">
+          </a>
           </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -62,5 +65,7 @@
     <script src="{% static 'assets/save_render.js' %}"></script>
     <script src="{% static 'assets/preview_table.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/0.12.4/bokeh.min.js"></script>
+    <footer id="foot">Copyright (c) 2017 PyChart All Rights Reserved.
+    </footer>
   </body>
 </html>
