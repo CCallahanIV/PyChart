@@ -6,7 +6,6 @@
 
 {% block content %}
 <body style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(0, 0, 0, 0.1) 100%), url({% static 'imgs/bg5.png' %})">
-{% if chart.render %}
 <div id="hp">
     <div id="hp_inner">
         <h1><img style="object-fit: cover; height: 55px;" src="{% static 'imgs/pychart_logo.png' %}"><b> PyChart</b></h1>
@@ -16,12 +15,11 @@
     </div>
 </div>
 <br>
+{% if chart.render %}
 <div class="chart_hp col-sm-12">
     <div class="inner_chart">
         {{ chart.render | safe }}
     </div>
 </div>
-{% else %}
-  
 {% endif %}
 {% endblock %}
