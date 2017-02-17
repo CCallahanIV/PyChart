@@ -194,10 +194,11 @@ def generate_scatter(table_data, form_data):
     plot = Scatter(table_data,
                    x=form_data['x'],
                    y=form_data['y'],
-                   title=form_data['x'] + 'vs' + form_data['y'],
+                   title=form_data['x'] + ' vs ' + form_data['y'],
                    color=form_data['color'],
                    marker=form_data['marker'],
                    tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
+    plot.title.text_font_style = "bold"
     output_file("output.html")
     save(plot)
     return build_html()
@@ -205,17 +206,16 @@ def generate_scatter(table_data, form_data):
 
 def generate_bar(table_data, form_data):
     """Generate Bar plot."""
-    try:
-        color = form_data['color']
-    except KeyError:
-        color = 'blue'
+    if form_data['group'] == '':
+        form_data['group'] = False
     plot = Bar(table_data,
                label=form_data['label'],
                values=form_data['values'],
                agg=form_data['agg'],
-               title=form_data['label'] + 'vs' + form_data['values'],
-               color=color,
+               title=form_data['label'] + ' vs ' + form_data['values'],
+               group=form_data['group'],
                tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
+    plot.title.text_font_style = "bold"
     output_file("output.html")
     save(plot)
     return build_html()
@@ -231,6 +231,7 @@ def generate_histogram(table_data, form_data):
                      values=form_data['column'],
                      color=color,
                      tools='pan,wheel_zoom,box_zoom,reset,resize,hover,save')
+    plot.title.text_font_style = "bold"
     output_file("output.html")
     save(plot)
     return build_html()

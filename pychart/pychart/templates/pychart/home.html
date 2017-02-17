@@ -6,11 +6,20 @@
 
 {% block content %}
 <body style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(0, 0, 0, 0.1) 100%), url({% static 'imgs/bg5.png' %})">
-{% if chart.render %}
-<div>
-  {{ chart.render | safe }}
+<div id="hp">
+    <div id="hp_inner">
+        <h1><img style="object-fit: cover; height: 55px;" src="{% static 'imgs/pychart_logo.png' %}"><b> PyChart</b></h1>
+        <h4 id="sub_head">Beautiful Charts Made Easy!</h4>
+        <p id="top_text">We love helping you make beautiful charts from complicated data. 
+        <p id="top_text">With PyChart, it's simple to create poignant charts that tell a great story.</p>
+    </div>
 </div>
-{% else %}
-  
+<br>
+{% if chart.render %}
+<div class="chart_hp col-sm-12">
+    <div class="inner_chart">
+        {{ chart.render | safe }}
+    </div>
+</div>
 {% endif %}
 {% endblock %}
