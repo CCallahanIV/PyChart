@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split()
 
 
 # Application definition
@@ -81,7 +81,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get("PYCHART_DB", "pychart_db"),
         'USER': os.environ.get("DB_USERNAME", ""),
-        'HOST': '127.0.0.1',
+        'PASSWORD': os.environ.get("DB_PASSWORD", ""),
+        'HOST': os.environ.get("DB_ENDPOINT", ""),
         'PORT': '5432',
         'TEST': {
             'NAME': os.environ.get("TEST_PYCHART_DB", "test_pychart_db")
@@ -127,22 +128,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'pychart', 'static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 MEDIA_URL = "/media/"
-ACCOUNT_ACTIVATION_DAYS = 3
-
 
 LOGIN_REDIRECT_URL = 'pychart_profile:profile'
 
-
 # Email setup
 ACCOUNT_ACTIVATION_DAYS = 7
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'thepychart@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None

@@ -33,12 +33,14 @@ $(document).ready(function(){
         $($(this).parent()).serializeArray().map(function(x){form_data[x.name] = x.value;});
         var chart_type = $(this).parent().attr('data');
         form_data["chart_type"] = chart_type;
+        console.log("rendering")
         $.ajax({
             method: 'POST',
             url: '/data/retrieve/render/',
             data: JSON.stringify({"table_data": table_data, "form_data": form_data}),
             contentType: 'application/json',
             success: function(result){
+                console.log("Render Success")
                 $('.renderContainer').html(result)
                 sessionStorage.setItem('render_html', result)
             }

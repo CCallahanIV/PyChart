@@ -1,0 +1,113 @@
+---
+- hosts: ec2
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ~/Documents/CodeFellows/401/pychart/PyChart/ansible2_PyChart/vars/vars.yml
+  vars:
+    env:
+      PYCHART_DB: "{{PYCHART_DB}}"
+      DB_USERNAME: "{{DB_USERNAME}}"
+      DB_PASSWORD: "{{DB_PASSWORD}}"
+      DB_ENDPOINT: "{{DB_ENDPOINT}}"
+      SECRET_KEY: "{{SECRET_KEY}}"
+      EMAIL_HOST_PASSWORD: "{{EMAIL_HOST_PASSWORD}}"
+      ALLOWED_HOSTS: "{{ALLOWED_HOSTS}}"
+
+  tasks:
+    - name: Update the Ubuntu system and services
+      apt: update_cache=yes
+
+    - name: Upgrade the Ubuntu system
+      apt: upgrade=yes
+
+    - name: Install Basic Unix-level Services
+      apt: name={{ item }} state=latest
+      with_items:
+        - nginx
+        - python3
+        - python3-pip
+        - python3.4-venv
+        - python-dev
+        - git
+        - gunicorn
+        - libtiff5-dev
+        - libjpeg8-dev
+        - zlib1g-dev
+        - libfreetype6-dev
+        - liblcms2-dev
+        - libwebp-dev
+        - tcl8.6-dev
+        - tk8.6-dev
+        - python-tk
+        - libpq-dev
+
+    - name: Clone the Django Imager App to the Home Directory
+      become: yes
+      become_method: sudo
+      git: clone=yes repo={{project_repo}} dest=/home/ubuntu/PyChart version={{branch}}
+
+    - name: Create a virtual environment in the django app.
+      command: python3 -m venv /home/ubuntu/PyChart
+
+    - name: Install gunicorn to virtual environment
+      pip: virtualenv=/home/ubuntu/PyChart name=gunicorn
+
+    - name: Install the packages specified in requirements.pip in the Python 3 environment
+      pip: 
+        requirements: /home/ubuntu/PyChart/requirements.pip
+        virtualenv: /home/ubuntu/PyChart
+        virtualenv_python: python3.4
+
+    - name: Register the old default file
+      stat: path=/etc/nginx/sites-available/default.orig
+      register: default_stat
+
+    - name: Rename old default file
+      command: mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig
+      when: not default_stat.stat.exists
+
+    - name: Create a new default file for nginx
+      template: src=../templates/nginx_config.jinja2 dest=/etc/nginx/sites-available/default
+
+    - name: Copy upstart script into /etc/init/
+      template: src=../templates/upstart_config.jinja2 dest=/etc/init/pychart.conf
+
+    - name: Restart nginx service
+      service: name=nginx state=restarted
+
+    - name: Migrate Django models to database
+      django_manage:
+        command: migrate
+        app_path: /home/ubuntu/PyChart/pychart
+        virtualenv: /home/ubuntu/PyChart
+      environment: "{{env}}"
+
+    - name: Collect static files
+      django_manage:
+        command: collectstatic
+        app_path: /home/ubuntu/PyChart/pychart
+        virtualenv: /home/ubuntu/PyChart
+      environment: "{{env}}"
+
+    - name: Change permissions on media folder
+      file: 
+        path: "{{media_root}}"
+        state: touch
+        mode: 0777
+    
+    - name: Change permissions on media/data
+      file: 
+        path: "{{media_root}}/data"
+        state: touch
+        mode: 0777
+
+    - name: Change permissions on media/data
+      file: 
+        path: "{{media_root}}/../../pychart"
+        state: touch
+        mode: 0777
+
+    - name: Restart the imager upstart job
+      service: name="pychart" state=restarted

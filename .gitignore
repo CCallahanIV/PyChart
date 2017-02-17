@@ -100,5 +100,5 @@ pychart/MEDIA/*
 TestBook.ipynb
 output.html
 
-vars.yml
-hosts
+ansible2_PyChart/vars/vars.yml
+ansible2_PyChart/hosts
