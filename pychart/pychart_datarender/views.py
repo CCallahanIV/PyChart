@@ -207,8 +207,7 @@ def generate_scatter(table_data, form_data):
 def generate_bar(table_data, form_data):
     """Generate Bar plot."""
     if form_data['group'] == '':
-        form_data['group'] = None
-    # import pdb; pdb.set_trace()
+        form_data['group'] = False
     plot = Bar(table_data,
                label=form_data['label'],
                values=form_data['values'],
