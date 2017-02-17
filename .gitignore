@@ -91,3 +91,14 @@ ENV/
 # Coverage reports
 *.coverage
 *.coveragerc
+
+#Media Folder
+pychart/MEDIA/*
+!pychart/MEDIA/.gitkeep
+
+#files
+TestBook.ipynb
+output.html
+
+ansible2_PyChart/vars/vars.yml
+ansible2_PyChart/hosts
