@@ -58,7 +58,9 @@ To add to that, we would like to offer the user some options to customize the re
 #POST PROJECT DEBRIEF:
 
 ## Leftover TODOs:
-  * Implement CSRF protection on form submissions through AJAX calls.
+  * Implement CSRF protection on form submissions through AJAX calls. (DONE)
+  * Move bokeh-related functions into separate module, import into views.
+  * Expand profile related functionality.
 
 
 ## Lessons Learned:

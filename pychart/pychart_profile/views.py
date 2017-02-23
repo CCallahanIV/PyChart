@@ -9,7 +9,7 @@ from pychart_profile.forms import UserProfileForm
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
-    """Display user's profile."""
+    """Display current user's profile."""
 
     template_name = "pychart_profile/profile.html"
     model = PyChartProfile
@@ -51,4 +51,4 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         self.object.user.email = form.cleaned_data['Email']
         self.object.user.save()
         self.object.save()
-        return redirect("/profile")
+        return redirect(reverse_lazy('profile'))
