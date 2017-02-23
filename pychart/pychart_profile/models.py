@@ -22,7 +22,7 @@ class PyChartProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def make_profile(sender, instance, **kwargs):
-    """Make a new profile for a new user."""
+    """Make a new profile for a new user after new user is saved."""
     if kwargs["created"]:
         new_profile = PyChartProfile(user=instance)
         new_profile.save()

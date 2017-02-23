@@ -23,6 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+#TODO: Make this an environmental variable.
 DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split()
@@ -144,4 +146,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'thepychart@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 
+# Set to None to prevent issues with ajax calls.
+# TODO: Research best way to make data-heavy AJAX calls to back end.
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None

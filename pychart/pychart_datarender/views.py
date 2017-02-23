@@ -1,28 +1,28 @@
 
 """Views for pychart datarender app."""
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
-from django.views.decorators.csrf import csrf_exempt
-from pychart_datarender.models import Data, Render
-from pychart_datarender.forms import DataForm, EditDataForm, EditRenderForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
-from django.utils import timezone
 from django.urls import reverse_lazy, reverse
-import pandas as pd
-import json
+from django.utils import timezone
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
+from pychart_datarender.forms import DataForm, EditDataForm, EditRenderForm
+from pychart_datarender.models import Data, Render
 from bokeh.charts import Scatter, output_file, save, Bar, Histogram
+import json
+import pandas as pd
 
 
 class GalleryView(LoginRequiredMixin, TemplateView):
-    """View for gallery."""
+    """Class based view for gallery."""
 
     template_name = 'pychart_datarender/gallery.html'
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("gallery")
 
     def get_context_data(self):
-        """Show a users data and renders."""
+        """Show a user's data and renders."""
         the_user = self.request.user
         user_data = Data.objects.filter(owner=the_user.profile)
         user_renders = Render.objects.filter(owner=the_user.profile)
@@ -31,24 +31,24 @@ class GalleryView(LoginRequiredMixin, TemplateView):
 
 
 class DataDetailView(TemplateView):
-    """View for data detail."""
+    """Class based view for a single data object."""
 
     template_name = 'pychart_datarender/data_id.html'
 
     def get_context_data(self, pk):
-        """Get context for album view."""
+        """Get context for single data object."""
         data = Data.objects.get(pk=pk)
         return {'data': data}
 
 
 class RenderDetailView(DetailView):
-    """View for data render."""
+    """Class based view for a single render object."""
 
     template_name = "pychart_datarender/render_detail.html"
     model = Render
 
     def get_context_data(self, **kwargs):
-        """Get context class method."""
+        """Get context for single render."""
         render = Render.objects.get(id=self.kwargs.get("pk"))
         context = {"render": render}
         return context
@@ -95,6 +95,7 @@ class AddDataView(CreateView):
     template_name = 'pychart_datarender/add_data.html'
 
     def form_valid(self, form):
+        """Overwrite form_valid method to add user to form before save."""
         data = form.save()
         data.owner.add(self.request.user.profile)
         data.date_uploaded = timezone.now()
@@ -110,13 +111,14 @@ class AddRenderView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("login")
 
     def get_context_data(self):
+        """Return only user's data sets."""
         user = self.request.user
         data_list = user.profile.data_sets.all()
         return {"data_sets": data_list}
 
 
 def add_owner_view(request, pk):
-    """Add dataset to this owner."""
+    """Function based view to add data objects to user from library page."""
     data = Data.objects.get(pk=pk)
     profile = request.user.profile
     if data in profile.data_sets.all():
@@ -126,6 +128,7 @@ def add_owner_view(request, pk):
     return redirect('gallery')
 
 
+@login_required
 def retrieve_data(request, pk):
     """Define a view to handle ajax calls to retrieve data."""
     data_obj = Data.objects.get(pk=pk)
@@ -152,7 +155,7 @@ def refactor_data(data):
     return res
 
 
-@csrf_exempt
+@login_required
 def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
@@ -165,7 +168,7 @@ def render_data(request):
         raise Http404
 
 
-@csrf_exempt
+@login_required
 def save_render(request):
     """Save render."""
     if request.method == 'POST':
@@ -179,8 +182,7 @@ def save_render(request):
         raise Http404
 
 
-def render_chart(form_data,
-                 table_data):
+def render_chart(form_data, table_data):
     """Generate bokeh plot from input dataframe."""
     if form_data['chart_type'] == 'Scatter':
         return generate_scatter(table_data, form_data)
