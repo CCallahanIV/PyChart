@@ -51,4 +51,4 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         self.object.user.email = form.cleaned_data['Email']
         self.object.user.save()
         self.object.save()
-        return redirect(reverse_lazy('profile'))
+        return redirect('/profile')

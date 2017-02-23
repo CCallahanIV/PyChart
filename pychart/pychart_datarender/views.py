@@ -1,6 +1,5 @@
 
 """Views for pychart datarender app."""
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect
@@ -128,7 +127,6 @@ def add_owner_view(request, pk):
     return redirect('gallery')
 
 
-@login_required
 def retrieve_data(request, pk):
     """Define a view to handle ajax calls to retrieve data."""
     data_obj = Data.objects.get(pk=pk)
@@ -155,7 +153,6 @@ def refactor_data(data):
     return res
 
 
-@login_required
 def render_data(request):
     """Return rendered HTML from Bokeh for the given data."""
     if request.method == 'POST':
@@ -168,7 +165,6 @@ def render_data(request):
         raise Http404
 
 
-@login_required
 def save_render(request):
     """Save render."""
     if request.method == 'POST':
