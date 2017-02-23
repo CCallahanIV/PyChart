@@ -4,7 +4,7 @@ from pychart_datarender.models import Render
 
 
 class HomeView(TemplateView):
-    """Class for HomeView."""
+    """Class based view for Home Page."""
 
     template_name = "pychart/home.html"
 

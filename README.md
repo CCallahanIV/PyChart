@@ -59,7 +59,7 @@ To add to that, we would like to offer the user some options to customize the re
 
 ## Leftover TODOs:
   * Implement CSRF protection on form submissions through AJAX calls.
-  
+
 
 ## Lessons Learned:
    * Plan and design division of tasks between front end and back end prior to writing routes and handlers.
@@ -71,6 +71,8 @@ To add to that, we would like to offer the user some options to customize the re
    * Environmental variables are great not only for security, but for establishing publication and development configuration controls.
      - These must be well organized across team members.
      - How to control a master list outside of version control?
+
+   * Manage migrations in a very deliberate way.  Must be appropriately version controlled.
 
 ## Questions Moving Forward:
    * How to architect application between front and back end frameworks (e.g. React and Django)
