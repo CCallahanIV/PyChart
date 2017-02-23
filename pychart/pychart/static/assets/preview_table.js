@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    //TODO: This function duplicates update_table.js.  Use conditional for add_columns method and use same function for both pages?
     $('.dataLink').on("click", function(event){
         event.preventDefault();
         $.ajax({

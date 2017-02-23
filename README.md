@@ -53,3 +53,34 @@ To add to that, we would like to offer the user some options to customize the re
    
  * Hotfix-Branches: <feature or development>-hotfix
    - Hotfix branches may be made off of any feature branch or the development branch to quickly fix small issues.
+
+
+#POST PROJECT DEBRIEF:
+
+## Leftover TODOs:
+  * Implement CSRF protection on form submissions through AJAX calls.
+  
+
+## Lessons Learned:
+   * Plan and design division of tasks between front end and back end prior to writing routes and handlers.
+     - Django views are great for "static" views.
+     - Design a RESTful API to serve dynamic requests from front end, from the start.
+
+   * Testing a feature as you write is a good workflow, leads to better-reviewed and better-factored code.
+
+   * Environmental variables are great not only for security, but for establishing publication and development configuration controls.
+     - These must be well organized across team members.
+     - How to control a master list outside of version control?
+
+## Questions Moving Forward:
+   * How to architect application between front and back end frameworks (e.g. React and Django)
+
+   * How to correctly implement security measures from the start.
+     - Are there secure design conventions?
+     - What are best-practices for ensuring security?
+   
+   * How to test front end logic (e.g. using Mocha)?
+
+   * Using tools and libraries such as Bootstrap are fine for project week and tight time constraints.  Professionally, what are the questions to ask to determine whether or not something should be 3rd party or in-house?
+     - Compromise feature-set, trimming the fat vs. time, expense
+

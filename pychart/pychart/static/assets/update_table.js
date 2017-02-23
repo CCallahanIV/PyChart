@@ -1,10 +1,12 @@
 $(document).ready(function(){
 
+    //Helper function to reset chart form options.
     function reset_charts(){
         $('.columnSelect').empty()
         $('.nullable').append('<option>','')
     };
 
+    //Helper function to add column options to each chart form select element.
     function add_columns(columns){
         var select_boxes = $('.columnSelect');
         reset_charts()
@@ -13,6 +15,7 @@ $(document).ready(function(){
         }
     };
 
+    //Event Handler to populate BootstrapTable with data.
     $('.dataLink').on("click", function(event){
         event.preventDefault();
         $.ajax({
@@ -22,6 +25,7 @@ $(document).ready(function(){
                 f_data = JSON.parse(data)
                 $('#table').bootstrapTable('refreshOptions', {'columns': f_data['columns']})
                 $('#table').bootstrapTable('load', f_data['data'])
+                //TODO: Add conditional to add_columns call so this event handler can be used on both data detail and add render pages.
                 add_columns(f_data['columns'])
             }
         });        

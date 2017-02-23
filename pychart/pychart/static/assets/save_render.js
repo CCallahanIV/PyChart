@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+    //Event handler for saving rendered chart.
     $('#saveBtn').on('click', function(event){
         event.preventDefault()
         var render_data = {};
@@ -14,6 +16,7 @@ $(document).ready(function(){
             data: JSON.stringify(render_data),
             contentType: 'application/json',
             success: function(response){
+                //TODO: Better method for redirecting on AJAX success?
                 window.location.replace(response.url)
             }
         });

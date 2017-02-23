@@ -2,17 +2,14 @@ import factory
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client, RequestFactory
-from django.test import RequestFactory
 from django.urls import reverse_lazy
 from pychart_profile.models import PyChartProfile
 from pychart_datarender.models import Data, Render
-import unittest
 import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEST_FILE_PATH = os.path.join(BASE_DIR, 'MEDIA/data/drug.csv')
-
 TEST_HTML_FILE_PATH = os.path.join(BASE_DIR, 'MEDIA/render/TestScatter.html')
 
 
