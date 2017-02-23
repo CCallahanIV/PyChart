@@ -7,7 +7,6 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
-from django.views.decorators.csrf import csrf_exempt
 from pychart_datarender.forms import DataForm, EditDataForm, EditRenderForm
 from pychart_datarender.models import Data, Render
 from bokeh.charts import Scatter, output_file, save, Bar, Histogram
@@ -96,6 +95,7 @@ class AddDataView(CreateView):
     template_name = 'pychart_datarender/add_data.html'
 
     def form_valid(self, form):
+        """Overwrite form_valid method to add user to form before save."""
         data = form.save()
         data.owner.add(self.request.user.profile)
         data.date_uploaded = timezone.now()
@@ -111,6 +111,7 @@ class AddRenderView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("login")
 
     def get_context_data(self):
+        """Return only user's data sets."""
         user = self.request.user
         data_list = user.profile.data_sets.all()
         return {"data_sets": data_list}

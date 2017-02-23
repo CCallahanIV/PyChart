@@ -25,8 +25,10 @@ $(document).ready(function(){
                 f_data = JSON.parse(data)
                 $('#table').bootstrapTable('refreshOptions', {'columns': f_data['columns']})
                 $('#table').bootstrapTable('load', f_data['data'])
-                //TODO: Add conditional to add_columns call so this event handler can be used on both data detail and add render pages.
-                add_columns(f_data['columns'])
+                var forms = $('form')
+                if(forms.length > 0){
+                    add_columns(f_data['columns'])
+                }
             }
         });        
     });
