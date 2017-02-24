@@ -102,3 +102,5 @@ output.html
 
 ansible2_PyChart/vars/vars.yml
 ansible2_PyChart/hosts
+
+ansible2_PyChart/playbook2/playbook-pychart.retry
