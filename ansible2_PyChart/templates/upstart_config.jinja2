@@ -1,0 +1,19 @@
+description "PyChart"
+
+start on (filesystem)
+stop on runlevel [016]
+
+respawn
+setuid nobody
+setgid nogroup
+chdir {{install_root}}/{{ app_name }}/pychart
+
+env PYCHART_DB='{{PYCHART_DB}}'
+env DB_USERNAME='{{DB_USERNAME}}'
+env DB_PASSWORD='{{DB_PASSWORD}}'
+env DB_ENDPOINT='{{DB_ENDPOINT}}'
+env SECRET_KEY='{{SECRET_KEY}}'
+env EMAIL_HOST_PASSWORD='{{EMAIL_HOST_PASSWORD}}'
+env ALLOWED_HOSTS='{{ALLOWED_HOSTS}}'
+
+exec /home/ubuntu/PyChart/bin/gunicorn -b :8080 pychart.wsgi:application

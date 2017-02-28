@@ -1,0 +1,16 @@
+{% extends 'pychart/base.html' %}
+
+{% block content %}
+<p class="text-capitalize" id="th-title"><b>{{ data.title }}</b></p>
+{{ data.description }}
+{% if data.date_modified %}
+    <p class="date">Modified Date: {{ data.date_modified }}</p>
+{% else %}
+    <p class="date">Upload Data: {{ data.date_uploaded }}</p>
+{% endif %}
+<p><a href="{% url 'data_edit' data.id %}">Edit This Data</a></p>
+<br>
+<a class="dataLink" href="{% url 'get_data' data.id %}">View Data</a>
+<br><br><br>
+<table id="table" class="table" data-height="200" data-toggle="table"></table>
+{% endblock %}

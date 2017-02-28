@@ -1,0 +1,96 @@
+{% extends 'pychart/base.html' %}
+{% block content %}
+<br>
+<h4>Data sets</h4>
+<ul>
+    {% for data in data_sets %}
+        <li><a class="dataLink text-capitalize" href="{% url 'get_data' data.id %}">{{ data.title }}</a></li>
+    {% endfor %}
+</ul>
+<table id="table" class="table" data-height="200" data-toggle="table">
+</table>
+<label>Render Type:</label>
+<select id="chartType" name="chart_type">
+    <option>Bar</option>
+    <option>Histogram</option>
+    <option>Scatter</option>
+</select>
+
+<form id="Bar" data="Bar" class="chartForm">
+    {% csrf_token %}
+    <label>Values: </label>
+    <select class="columnSelect" name="values">
+    </select>
+
+    <label>Label: </label>
+    <select class="columnSelect" name="label">
+    </select>
+
+    <label>Aggregate by: </label>
+    <select name="agg">
+        <option>sum</option>
+        <option>mean</option>
+        <option>median</option>
+        <option>min</option>
+        <option>max</option>
+        <option>count</option>
+        <option>nunique</option>
+    </select>
+
+    <label>Group By: </label>
+    <select class="columnSelect nullable" name="group">
+        <option></option>
+    </select>
+
+    <button class="renderBtn">Render Bar Chart</button>
+</form>
+
+<form id="Histogram" class="chartForm" data="Histogram">
+    {% csrf_token %}
+    <label>Select Column: </label>
+    <select class="columnSelect" name="column">
+    </select>
+
+    <label>Color By:</label>
+    <select class="columnSelect nullable" name="color">
+        <option></option>
+    </select>
+
+    <button class="renderBtn">Render Histogram</button>
+</form>
+
+<form id="Scatter" class="chartForm" data="Scatter">
+    {% csrf_token %}
+    <label>Select X:</label>
+    <select class="columnSelect" name="x">
+    </select>
+
+    <label>Select Y:</label>
+    <select class="columnSelect" name="y">
+    </select>
+
+    <label>Color By:</label>
+    <select class="columnSelect nullable" name="color">
+        <option></option>
+    </select>
+
+    <label>Mark By:</label>
+    <select class="columnSelect nullable" name="marker">
+        <option></option>
+    </select>
+
+    <button class="renderBtn">Render Scatter</button>
+</form>
+
+<hr>
+<form class="renderForm">
+    {% csrf_token %}
+    <label>Title: </label>
+    <input type="text" name="title" required>
+    <label>Description</label>
+    <input type="text" name="description" required>
+    <div class="container renderContainer">
+    </div>
+    <button id="saveBtn">Save Render</button>
+</form>
+{% endblock %}
