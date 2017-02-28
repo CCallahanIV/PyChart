@@ -120,9 +120,7 @@ def add_owner_view(request, pk):
     """Function based view to add data objects to user from library page."""
     data = Data.objects.get(pk=pk)
     profile = request.user.profile
-    if data in profile.data_sets.all():
-        pass
-    else:
+    if data not in profile.data_sets.all():
         profile.data_sets.add(data)
     return redirect('gallery')
 
